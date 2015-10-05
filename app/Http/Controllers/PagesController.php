@@ -423,6 +423,7 @@ public function postChangeStatus()
     	$this->layout = View::make('layouts.pages');
     	if (!isset($param2)) { //LINK
     		$page = Page::where('status', 2)->where('param_one', $param1)->first();
+            Job::dump('here');
     		if (isset($page)) {
                 //PAGE FOUND
                 $title = isset($page->title)?$page->title:null;

@@ -46,7 +46,7 @@
 				<button type="button" class="btn btn-primary btn-block" id="reload-menus-select">
 						<i class="glyphicon glyphicon-refresh loading-icon-menu"></i>
 					
-					<img class="hide" src="/img/icons/ajax-loader-2.gif" id="loading-gif-menu" alt="loading" height="15" width="15">
+					<img class="hide" src="/assets/img/icons/ajax-loader-2.gif" id="loading-gif-menu" alt="loading" height="15" width="15">
 					
 					&nbsp;Reload Menus</button> 
 			</div>
@@ -71,7 +71,7 @@
 				<button type="button" class="btn btn-primary btn-block" id="reload-pages-select">
 						<i class="glyphicon glyphicon-refresh loading-icon-page"></i>
 					
-					<img class="hide" src="/img/icons/ajax-loader-2.gif" id="loading-gif-page" alt="loading" height="15" width="15">
+					<img class="hide" src="/assets/img/icons/ajax-loader-2.gif" id="loading-gif-page" alt="loading" height="15" width="15">
 					
 					&nbsp;Reload Pages</button> 
 			</div>

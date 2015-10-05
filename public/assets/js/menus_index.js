@@ -33,7 +33,7 @@ request = {
 		
 		var token = $('meta[name=_token]').attr('content');
 		$.post(
-			'/menus/count-items',
+			'/admins/menus/count-items',
 			{
 				"_token": token,
 				"id": id

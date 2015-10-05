@@ -23,6 +23,7 @@
   {!! Html::style('/assets/css/image_lightbox.css') !!}
   {!! Html::style('/packages/totop/css/ui.totop.css') !!}
   {!! Html::style('/assets/css/home_layout.css')!!}
+  {!! Html::style('/assets/css/general_styling/gs_1.css')!!}
   @yield('stylesheets')
 
 <!--[if lt IE 9]>

@@ -1,6 +1,7 @@
 @extends($layout)
 @section('stylesheets')
 {!! Html::style('/packages/DataTables-Bootstrap3/BS3/assets/css/datatables.css') !!}
+{!! Html::style('/assets/css/menu_Index.css') !!}
 @stop
 @section('scripts')
 {!! Html::script('/assets/js/menus_index.js') !!}

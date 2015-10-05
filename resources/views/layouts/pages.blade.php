@@ -24,6 +24,7 @@
     {!! Html::style('/assets/css/image_lightbox.css') !!}
     {!! Html::style('/packages/totop/css/ui.totop.css') !!}
     {!! Html::style('/assets/css/pages_layout.css')!!}
+    {!! Html::style('/assets/css/general_styling/gs_1.css')!!}
     @yield('stylesheets')
 
 <!--[if lt IE 9]>
@@ -75,17 +76,10 @@
 <footer class="row-fluid clearfix">
     <p>&copy; emmanuel's {!! date('Y') !!}</p>
 </footer>
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-{!! HTML::script('/packages/jssor.carousel.slider.for.bootstrap.example/js/jquery-1.9.1.min.js') !!}
-<!-- {!! HTML::script('/packages/bootstrap/js/bootstrap.min.js') !!}
- -->{!! HTML::script('/packages/jssor.carousel.slider.for.bootstrap.example/examples-bootstrap/docs.min.js') !!}
-{!! HTML::script('/packages/jssor.carousel.slider.for.bootstrap.example/examples-bootstrap/ie10-viewport-bug-workaround.js') !!}
-{!! HTML::script('/packages/jssor.carousel.slider.for.bootstrap.example/js/jssor.slider.mini.js') !!}
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 {!! HTML::script('/packages/modernizr/modernizr.custom.20702.js') !!}
-
 {!! HTML::script('/packages/waypoints/waypoints.min.js') !!}
 {!! HTML::script('/packages/history/scripts/compressed/history.js') !!}
 {!! HTML::script('/packages/lazyload/jquery.lazyload.min.js')!!}

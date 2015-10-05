@@ -33,3 +33,7 @@ a:hover{
   text-decoration: none;
   cursor: pointer;
 }
+
+/*.navbar-inverse .navbar-nav>li>a {
+    color: #025502;
+}*/

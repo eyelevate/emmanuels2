@@ -24,7 +24,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <img src="/img/emmanuels_compact_logo.png" onerror="this.onerror=null; this.src='/img/emmanuels_compact_logo.jpg'" alt="..." style="height:40px; width:136px;"/>
+        <img src="/assets/img/emmanuels_compact_logo.png" onerror="this.onerror=null; this.src='/assets/img/emmanuels_compact_logo.jpg'" alt="..." style="height:40px; width:136px;"/>
       </a>
     </div>
     <div class="collapse navbar-collapse">

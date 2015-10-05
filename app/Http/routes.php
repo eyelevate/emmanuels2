@@ -229,8 +229,8 @@ Route::group(['middleware' => 'beforeFilter'], function () {
 			Route::get('menus/view/{id}',  ['as' => 'menus_view','uses' => 'MenusController@getView', 'middleware' => ['acl:'.$prefix.'/menus/view'], function ($id) {}]);
 			Route::post('menus/view',  ['uses' => 'MenusController@postView', 'middleware' => ['acl:'.$prefix.'/menus/view']]);
 			Route::post('menus/delete',  ['uses' => 'MenusController@postDelete', 'middleware' => ['acl:'.$prefix.'/menus/delete']]);
-			Route::post('menus/count-items',  ['uses' => 'PagesController@postCountItems', 'middleware' => ['acl:'.$prefix.'/menus/count-items']]);
-			Route::post('menus/reload-menus',  ['uses' => 'PagesController@postReloadMenus', 'middleware' => ['acl:'.$prefix.'/menus/reload-menus']]);
+			Route::post('menus/count-items',  ['uses' => 'MenusController@postCountItems', 'middleware' => ['acl:'.$prefix.'/menus/count-items']]);
+			Route::post('menus/reload-menus',  ['uses' => 'MenusController@postReloadMenus', 'middleware' => ['acl:'.$prefix.'/menus/reload-menus']]);
 			
 			//MENUES ITEMS
 			Route::get('menu-items',  ['as' => 'menu-items_index','uses' => 'MenuItemsController@getIndex', 'middleware' => ['acl:'.$prefix.'/menu-items']]);
