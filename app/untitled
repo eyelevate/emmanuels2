@@ -1,0 +1,10 @@
+
+<div class="dd" id="nestable3">';
+	<ol class="dd-list">';
+		<li class="dd-item dd3-item" data-id="1">';
+			<input type="hidden" class="menu menu-link" name="1" value="">';
+			<input type="hidden" class="menu-order" name="menu['.$value->id.'][order]" value="">';
+			<div class="dd-handle dd3-handle">Drag</div><div class="dd3-content">1</div>';
+		</li>';
+	</ol>';
+</div>';

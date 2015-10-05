@@ -1,0 +1,14 @@
+.clear-padding {
+	padding-right: 0;
+	padding-left: 0
+}
+.clear-right-padding {
+	padding-right: 0;
+}
+
+@media screen and (max-width: 600px) {
+	.clear-right-padding {
+		padding-right: 0;
+		padding-left: 1px;
+	}
+}

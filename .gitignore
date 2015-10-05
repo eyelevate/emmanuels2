@@ -1,0 +1,13 @@
+/node_modules
+/.vagrant
+/.vagrant/*
+Homestead.yaml
+Homestead.json
+.env
+.env.php
+.env.*.php
+/config/database.php
+/public/assets/images/profile-images
+/public/assets/images/profile-images/tmp
+/public/assets/images/profile-images/perm
+/public/assets/img/1

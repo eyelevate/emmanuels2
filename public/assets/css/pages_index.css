@@ -1,0 +1,7 @@
+.modal-dialog{
+	z-index: 9999999999;
+}
+.modal-header{
+	    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}

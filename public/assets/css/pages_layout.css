@@ -1,0 +1,66 @@
+body {
+  
+}
+
+header {
+  height:50px;
+}
+footer {
+	border-top:1px solid #025502;
+	background-color:#D1EEDC;
+	color:#025502;
+	padding:0px;
+	margin:0px;
+
+}
+footer p {
+	padding-top:25px;
+	padding-bottom:25px;
+	margin-bottom:0px;
+	text-align:center;
+
+}
+
+.my-svg-container {
+  width:100%;
+}
+.my-svg-container img {
+  display: block;
+  margin-left: auto;
+  margin-right:auto;
+  max-width: 100%; 
+  max-height: 200px;
+}
+
+
+@media (min-width: 992px) {
+
+  #sidebar.affix-top {
+    position: static;
+  }
+
+  #sidebar.affix {
+    position: fixed;
+    top: 100px;
+  }
+}
+
+#contentDiv {
+    /* Fallback for web browsers that doesn't support RGBa */
+    background: rgb(255, 255, 255);
+    background: transparent\9;
+    /* RGBa with 0.6 opacity */
+    background: rgba(255, 255, 255, 0.9);
+    /* For IE 5.5 - 7*/
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#E5FFFFFF, endColorstr=#E5FFFFFF);
+    /* For IE 8*/
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#E5FFFFFF, endColorstr=#E5FFFFFF)";
+    zoom: 1;
+}
+
+
+
+
+
+
+

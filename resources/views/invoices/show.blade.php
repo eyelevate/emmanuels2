@@ -1,0 +1,1 @@
+/vagrant/www/app/views/invoices/show.blade.php

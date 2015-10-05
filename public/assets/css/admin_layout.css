@@ -1,0 +1,126 @@
+html,
+body {
+  overflow-x: hidden; /* Prevent scroll on narrow devices */
+}
+
+
+
+
+
+@media (min-width: 768px) {
+  
+html,
+body {
+  overflow-x: auto; /* allow scroll */
+}
+    .container {
+        max-width: 100%;
+        width: 100%;
+    }
+  
+/*
+ * Off Canvas
+ * --------------------------------------------------
+ */
+  .sidebar-offcanvas, .col-main {
+    position: relative;
+  }
+  .animate .sidebar-offcanvas, .animate .col-main {
+    -webkit-transition: all .25s ease-out;
+         -o-transition: all .25s ease-out;
+            transition: all .25s ease-out;
+  }
+  .side-toggle .sidebar-offcanvas {
+    width: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+  .side-toggle .col-main {
+   width:100%;
+  }
+}
+
+@media screen and (max-width: 767px) {
+ /*
+ * Off Canvas
+ * --------------------------------------------------
+ */
+  .row-offcanvas {
+    position: relative;
+    -webkit-transition: all .25s ease-out;
+         -o-transition: all .25s ease-out;
+            transition: all .25s ease-out;
+  }
+  
+  .row-offcanvas-right {
+    right: 0;
+  }
+
+  .row-offcanvas-left {
+    left: 0;
+  }
+
+  .row-offcanvas-right
+  .sidebar-offcanvas {
+    right: -66.66666667%%; /* 8 columns */
+  }
+
+  .row-offcanvas-left
+  .sidebar-offcanvas {
+    left: -66.66666667%%; /* 8 columns */
+  }
+
+  .row-offcanvas-right.active {
+    right: 66.66666667%%; /* 8 columns */
+  }
+
+  .row-offcanvas-left.active {
+    left: 66.66666667%%; /* 8 columns */
+  }
+
+  .sidebar-offcanvas {
+    position: absolute;
+    top: 0;
+    width: 66.66666667%%; /* 8 columns */
+  }
+
+  .row-offcanvas-left .sidebar-offcanvas {
+    margin-left:15px;
+  }
+  .navbar-brand {
+  	position: absolute;
+  	left:55px;
+  }
+  
+}
+
+
+.popover{
+  position:fixed;
+  z-index:9999;
+}
+.white, .white a {
+  color: #fff;
+}
+
+.datepicker, .datepickerSpan {
+  cursor: pointer;
+}
+
+/**
+* FONTS AND COLORS
+*
+**/
+
+.muted {
+  color:#999999;
+}
+
+#menuButton {
+	position:absolute;
+	left:10px;
+}
+.navbar-brand {
+	position: absolute;
+	left:55px;
+}

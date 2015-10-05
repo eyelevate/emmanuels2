@@ -1,0 +1,31 @@
+.dd3-item{
+	border: 1px solid #ccc !important;
+	background: #fafafa !important;
+	background: -webkit-linear-gradient(top, #fafafa 0%, #eee 100%) !important;
+	background: -moz-linear-gradient(top, #fafafa 0%, #eee 100%) !important;
+	background: linear-gradient(top, #fafafa 0%, #eee 100%) !important;
+	-webkit-border-radius: 3px !important;
+	border-radius: 3px !important;
+	box-sizing: border-box !important;
+	margin-top: 5px !important;
+}
+.dd3-handdle{
+	border: 1px dashed rgb(195, 194, 194) !important;
+	border-right: none !important;
+	background: rgb(226, 226, 226) !important;
+	height: 43px !important;
+	margin: 0 !important;	
+}
+.dd3-content{
+	border: none !important;
+	background: none !important;display:table !important;padding: 5px 10px 5px 40px !important;
+} 
+.remove-img-div{
+	border: 1px dashed rgb(195, 194, 194) !important;
+	border-left: none !important;
+	background: rgb(226, 226, 226) !important;
+	height: 43px !important;
+	margin: 0 !important;
+	padding-top: 5px;
+}
+

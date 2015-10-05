@@ -1,0 +1,17 @@
+#map-outer {  
+
+}
+#map-canvas { 
+	margin-top:20px;
+	border: 5px solid #CCC; 
+	background-color:#FFF;
+	height: 300px;
+}
+
+@media screen and (max-width: 1000px) { /*col-xs*/
+	#map-canvas { 
+		margin-top:0;
+		margin-bottom:10px;
+
+	}
+}
