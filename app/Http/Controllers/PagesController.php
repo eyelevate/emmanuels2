@@ -423,13 +423,13 @@ public function postChangeStatus()
     	$this->layout = View::make('layouts.pages');
     	if (!isset($param2)) { //LINK
     		$page = Page::where('status', 2)->where('param_one', $param1)->first();
-            Job::dump('here');
     		if (isset($page)) {
                 //PAGE FOUND
                 $title = isset($page->title)?$page->title:null;
     			$page_content          = json_decode($page->content_data);
-    			$this->layout->content = View::make('pages.page')
+    			return view('pages.page')
                 ->with('title',$title)
+                ->with('layout','layouts.pages')
                 ->with('page_content', $page_content);
     		} else {
     			$this->layout->content = View::make('errors.missing');

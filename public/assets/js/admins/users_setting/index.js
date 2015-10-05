@@ -36,7 +36,7 @@ request = {
 		var token = $('meta[name=csrf-token]').attr('content');
 		console.log(search);
 		$.post(
-			'/users/return-users',
+			'/admins/users/return-users',
 			{
 				"_token": token,
 				search: search

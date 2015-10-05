@@ -622,7 +622,7 @@ request = {
     ajax_validation: function(value, type, _this) {
         var token = $('meta[name=csrf-token]').attr('content');
         $.post(
-            '/schedules/ajax-validation', {
+            '/admins/schedules/ajax-validation', {
                 "_token": token,
                 value: value,
                 type: type
@@ -665,7 +665,7 @@ request = {
 search_users: function(company_id, search) {
     var token = $('meta[name=_token]').attr('content');
     $.post(
-        '/users/request-users', {
+        '/admins/users/request-users', {
             "_token": token,
             company_id: company_id,
             search: search
@@ -701,7 +701,7 @@ add_content: function(content_set_count) {
    var count_form = parseInt($('#service_count').val());
    var token = $('meta[name=_token]').attr('content');
    $.post(
-    '/schedules/order-add', {
+    '/admins/schedules/order-add', {
         "_token": token,
         "content_set_count": content_set_count,
         "count_form":count_form
@@ -726,7 +726,7 @@ set_user: function(user_id) {
     $('#myModal').modal('show');
     var token = $("meta[name=_token]").attr('content');
     $.post(
-        '/user/request-user-information', {
+        '/admins/user/request-user-information', {
             "_token": token,
             user_id: user_id,
         },

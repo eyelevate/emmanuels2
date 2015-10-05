@@ -78,7 +78,7 @@ request = {
 		$('#loading-gif').removeClass('hide');
 		var token = $('meta[name=_token]').attr('content');
 		$.post(
-			'/pages/reload-pages',
+			'/admins/pages/reload-pages',
 			{
 				"_token": token
 			},

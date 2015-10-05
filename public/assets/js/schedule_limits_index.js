@@ -224,7 +224,7 @@ request = {
     add_overwrite: function(count) {
         var token = $('meta[name=csrf-token]').attr('content');
         $.post(
-            '/limits/overwrite', {
+            '/admins/limits/overwrite', {
                 "_token": token,
                 "count": count
             },
@@ -280,7 +280,7 @@ request = {
         // TYPE = STEPY OR THE NEXT BTN
         var token = $('meta[name=csrf-token]').attr('content');
         $.post(
-            '/limits/validate-hours', {
+            '/admins/limits/validate-hours', {
                 "_token": token,
                 "data": data
             },
@@ -336,7 +336,7 @@ request = {
         // TYPE = STEPY OR THE NEXT BTN
         var token = $('meta[name=csrf-token]').attr('content');
         $.post(
-            '/limits/validate-overwrite-hours', {
+            '/admins/limits/validate-overwrite-hours', {
                 "_token": token,
                 "data": data
             },

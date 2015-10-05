@@ -293,7 +293,7 @@ results = {
 		        this_file.append(key, value);
 		    });
 		 	$.ajax({
-			        url: '/users/send-file',
+			        url: '/admins/users/send-file',
 			        type: 'POST',
 			        data: this_file,
 			        cache: false,
@@ -327,7 +327,7 @@ request = {
 	sendfile: function(file) {
 	var token = $('meta[name=csrf-token]').attr('content');
 	$.post(
-		'/users/send-file',
+		'/admins/users/send-file',
 		{
 			"_token": token,
 			"file":file
@@ -351,7 +351,7 @@ request = {
 	$('.existing-query').html('');
 	var token = $('meta[name=csrf-token]').attr('content');
 	$.post(
-		'/threads/search-query',
+		'/admins/threads/search-query',
 		{
 			"_token": token,
 			"search_text":search_text
@@ -404,7 +404,7 @@ request = {
 	user_auth: function() {
 	var token = $('meta[name=csrf-token]').attr('content');
 	$.post(
-		'/users/user-auth',
+		'/admins/users/user-auth',
 		{
 			"_token": token
 		},

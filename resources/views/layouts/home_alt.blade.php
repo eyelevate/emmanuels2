@@ -40,7 +40,7 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="/" style="position:absolute; top:-10px; left:10px;">          
-          <img src="/img/emmanuels_compact_logo.png" onerror="this.onerror=null; this.src='/img/emmanuels_compact_logo.jpg'" alt="..." style="height:40px; width:136px;"/>
+          <img src="/assets/img/emmanuels_compact_logo.png" onerror="this.onerror=null; this.src='/assets/img/emmanuels_compact_logo.jpg'" alt="..." style="height:40px; width:136px;"/>
         </a>
       </div>
       <div class="collapse navbar-collapse links">
@@ -51,7 +51,7 @@
   <header class="site-header">
     <div id="headerNav" class="container col-md-8 col-md-offset-2">
       <a href="/" class="my-svg-container">
-        <img src="/img/emmanuels_logo.png" class="co-logo" onerror="this.onerror=null; this.src='/img/emmanuels_logo.jpg'" alt="..." >
+        <img src="/assets/img/emmanuels_logo.png" class="co-logo" onerror="this.onerror=null; this.src='/assets/img/emmanuels_logo.jpg'" alt="..." >
       </a>
       <nav class="top-nav text-center">
         {{$menu_html}}
@@ -127,7 +127,7 @@
   /* size of bullet elment */
   width: 16px;
   height: 16px;
-  background: url(packages/jssor.carousel.slider.for.bootstrap.example/img/b05.png) no-repeat;
+  background: url(/packages/jssor.carousel.slider.for.bootstrap.example/img/b05.png) no-repeat;
   overflow: hidden;
   cursor: pointer;
 }
@@ -186,7 +186,7 @@
 
 
 <div class="container-fluid">
-  <div id="startContent" class="row" data-parallax="scroll" data-image-src="/img/parallax_rug2.jpg">
+  <div id="startContent" class="row" data-parallax="scroll" data-image-src="/assets/img/parallax_rug2.jpg">
     <div id="contentDiv" class="col-md-8 col-md-offset-2" >
       @if(Session::has('message'))
       <div class="alert {{ Session::get('alert_type') }} alert-dismissable">

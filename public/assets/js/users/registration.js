@@ -73,7 +73,7 @@ request = {
 		
 		var token = $('meta[name=csrf-token]').attr('content');
 		$.post(
-			'/users/validate',
+			'/admins/users/validate',
 			{
 				"_token": token,
 				"reg_form":reg_form
