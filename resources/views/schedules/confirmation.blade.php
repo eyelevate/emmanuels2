@@ -1,10 +1,11 @@
+@extends($layout)
 @section('stylesheets')
 @stop
 @section('scripts')
-{{ HTML::script('js/schedules_preview.js') }}
+{!! Html::script('/assets/js/schedules_preview.js') !!}
 @stop
 @section('content')
-{{ Form::open(array('action' => 'SchedulesController@postConfirmation', 'class'=>'','id'=>'add-form','role'=>"form")) }}
+{!! Form::open(array('action' => 'SchedulesController@postConfirmation', 'class'=>'','id'=>'add-form','role'=>"form")) !!}
 <div class="container">
     <div class="row">
         <div class="col-xs-12">
@@ -103,7 +104,7 @@
                 </div>
 	            <div class="panel-footer">
 
-                            <a href="{{ action('SchedulesController@getAdd') }}" class="previous btn btn-default"><i class="glyphicon glyphicon-chevron-left"></i> Back</a>
+                            <a href="{!! action('SchedulesController@getAdd') !!}" class="previous btn btn-default"><i class="glyphicon glyphicon-chevron-left"></i> Back</a>
 
 					<button type="submit" class="btn btn-primary pull-right submit-btn">Confirm</button>
 				</div>
@@ -111,7 +112,7 @@
         </div>
     </div>
 </div>
-{{ Form::close() }}
+{!! Form::close() !!}
 <style>
 .height {
     min-height: 200px;

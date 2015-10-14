@@ -1,8 +1,18 @@
 <?php
-
-class Delivery extends Eloquent {
+namespace App;
+use Illuminate\Database\Eloquent\Model;
+use App\Job;
+use App\User;
+use App\Admin;
+use App\Role;
+use App\Permission;
+use App\PermissionRole;
+use App\Website;
+use App\Company;
+use App\Menu;
+use App\Page;
+class Delivery extends Model  {
 	protected $fillable = [];
-	use SoftDeletingTrait;
 	protected $table = 'deliveries';
 	public static $rules_deliveries_rules = array(
 

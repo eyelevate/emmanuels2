@@ -1,15 +1,16 @@
+@extends($layout)
 @section('stylesheets')
 @stop
 @section('scripts')
 <!-- DATEPICKER -->
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-{{ HTML::script('js/schedules_details_frontend.js') }}
+{!! Html::script('/assets/js/schedules_details_frontend.js') !!}
 @stop
 
 @section('content')
 <div class="row" id="this-body" style="min-height:500px;"> 
-	{{ Form::open(array('action' => 'SchedulesController@postDetails', 'class'=>'','id'=>'add-form','role'=>"form")) }}
+	{!! Form::open(array('action' => 'SchedulesController@postDetails', 'class'=>'','id'=>'add-form','role'=>"form")) !!}
 	<div class="col-md-3" style="margin-bottom:5px;">
 		<ul id="stepy" class="nav nav-pills nav-stacked">
 			<li id="type-stepy" class="active" role="presentation"><a href="#type"><span class="badge">1</span> Type</a></li>
@@ -119,7 +120,7 @@
 			
 		</div>
 	</div>
-	{{ Form::close() }}
+	{!! Form::close() !!}
 </div>
 <style>
 .title-hr{

@@ -31,6 +31,8 @@ Route::group(['middleware' => 'beforeFilter'], function () {
 		Route::post('send-file', ['uses'=>'UsersController@postSendFile']);
 		Route::post('validate', ['uses'=>'UsersController@postValidate']);
 		Route::post('send-file-temp', ['uses'=>'UsersController@postSendFileTemp']);
+		Route::post('request-users','UsersController@postRequestUsers');
+		Route::post('request-user-information','UsersController@postRequestUserInformation');
 	});	
 
 	//ADMIN PREFIX
@@ -148,6 +150,7 @@ Route::group(['middleware' => 'beforeFilter'], function () {
 			Route::get('schedules/view/{id}',  ['as' => 'schedules_view','uses' => 'SchedulesController@getView', 'middleware' => ['acl:'.$prefix.'/schedules/view'], function ($id) {}]);
 			Route::post('schedules/view',  ['uses' => 'SchedulesController@postView', 'middleware' => ['acl:'.$prefix.'/schedules/view']]);
 			Route::post('schedules/delete',  ['uses' => 'SchedulesController@postDelete', 'middleware' => ['acl:'.$prefix.'/schedules/delete']]);
+			Route::post('schedules/preview',  ['uses' => 'SchedulesController@postPreview', 'middleware' => ['acl:'.$prefix.'/schedules/preview']]);
 			Route::post('schedules/order-add',  ['uses' => 'SchedulesController@postOrderAdd', 'middleware' => ['acl:'.$prefix.'schedules/order-add']]);
 			Route::post('schedules/ajax-validation',  ['uses' => 'SchedulesController@postAjaxValidation', 'middleware' => ['acl:'.$prefix.'schedules/ajax-validation']]);
 
@@ -165,14 +168,18 @@ Route::group(['middleware' => 'beforeFilter'], function () {
 			Route::post('limits/validate-overwrite-hours',  ['uses' => 'ScheduleLimitsController@postValidateOverWriteHours', 'middleware' => ['acl:'.$prefix.'/limits/validate-overwrite-hours']]);
 
 			//SCHEDULE-RULES
-			Route::get('schedule-rules',  ['as' => 'scheduleRules_index','uses' => 'Schedule-rulesController@getIndex', 'middleware' => ['acl:'.$prefix.'/schedule-rules']]);
-			Route::get('schedule-rules/add',  ['as' => 'scheduleRules_add','uses' => 'Schedule-rulesController@getAdd', 'middleware' => ['acl:'.$prefix.'/schedule-rules/add']]);
+			Route::get('schedule-rules',  ['as' => 'rules_index','uses' => 'ScheduleRulesController@getIndex', 'middleware' => ['acl:'.$prefix.'/schedule-rules']]);
+			Route::get('schedule-rules/add',  ['as' => 'rules_add','uses' => 'ScheduleRulesController@getAdd', 'middleware' => ['acl:'.$prefix.'/schedule-rules/add']]);
 			Route::post('schedule-rules/add',  ['uses' => 'ScheduleRulesController@postAdd', 'middleware' => ['acl:'.$prefix.'/schedule-rules/add']]);
-			Route::get('schedule-rules/edit/{id}',  ['as' => 'scheduleRules_edit','uses' => 'Schedule-rulesController@getEdit', 'middleware' => ['acl:'.$prefix.'/schedule-rules/edit'], function ($id) {}]);
+			Route::get('schedule-rules/edit/{id}',  ['as' => 'scheduleRules_edit','uses' => 'ScheduleRulesController@getEdit', 'middleware' => ['acl:'.$prefix.'/schedule-rules/edit'], function ($id) {}]);
 			Route::post('schedule-rules/edit',  ['uses' => 'ScheduleRulesController@postEdit', 'middleware' => ['acl:'.$prefix.'/schedule-rules/edit']]);
-			Route::get('schedule-rules/view/{id}',  ['as' => 'scheduleRules_view','uses' => 'Schedule-rulesController@getView', 'middleware' => ['acl:'.$prefix.'/schedule-rules/view'], function ($id) {}]);
+			Route::get('schedule-rules/view/{id}',  ['as' => 'scheduleRules_view','uses' => 'ScheduleRulesController@getView', 'middleware' => ['acl:'.$prefix.'/schedule-rules/view'], function ($id) {}]);
 			Route::post('schedule-rules/view',  ['uses' => 'ScheduleRulesController@postView', 'middleware' => ['acl:'.$prefix.'/schedule-rules/view']]);
 			Route::post('schedule-rules/delete',  ['uses' => 'ScheduleRulesController@postDelete', 'middleware' => ['acl:'.$prefix.'/schedule-rules/delete']]);
+			Route::post('schedule-rules/overwrite',  ['uses' => 'ScheduleRulesController@postAddOverwrite', 'middleware' => ['acl:'.$prefix.'/schedule-rules/overwrite']]);
+			Route::post('schedule-rules/validate-hours',  ['uses' => 'ScheduleRulesController@postValidateHours', 'middleware' => ['acl:'.$prefix.'/schedule-rules/validate-hours']]);
+			Route::post('schedule-rules/validate-overwrite-hours',  ['uses' => 'ScheduleRulesController@postValidateOverWriteHours', 'middleware' => ['acl:'.$prefix.'/schedule-rules/validate-overwrite-hours']]);
+
 
 			Route::get('services',  ['as' => 'services_index','uses' => 'ServicesController@getIndex', 'middleware' => ['acl:'.$prefix.'/services']]);
 			Route::get('services/add',  ['as' => 'services_add','uses' => 'ServicesController@getAdd', 'middleware' => ['acl:'.$prefix.'/services/add']]);

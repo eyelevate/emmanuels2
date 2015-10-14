@@ -30,13 +30,13 @@ for ($i=0; $i <= 60; $i++) {
 				<strong>Sunday</strong>
 				<div class="radio">
 					<label>
-						<input type="radio" name="hours[0][open]" id="optionsRadios1" value="open" class="hoursOpenRadio" checked="true">
+						<input type="radio" name="hours[0][open]" id="optionsRadios1" value="open" class="hoursOpenRadio" >
 						Open
 					</label>
 				</div>
 				<div class="radio">
 					<label>
-						<input type="radio" name="hours[0][open]" id="optionsRadios2" value="closed" class="hoursOpenRadio">
+						<input type="radio" name="hours[0][open]" id="optionsRadios2" value="closed" class="hoursOpenRadio" checked="true">
 						Closed
 					</label>
 				</div>
@@ -47,20 +47,20 @@ for ($i=0; $i <= 60; $i++) {
 						<h4 class="list-group-item-heading">Start</h4>
 						<div class="col-xs-4">
 							<div class="form-group ">
-								{{ Form::select('hours[0][open_hour]', $hours, '', array('class'=>'form-control form-selects','this_category'=>'1','not_empty'=>'true','placeholder'=>'Select Hour')); }}
+								{!! Form::select('hours[0][open_hour]', $hours, '', array('class'=>'form-control form-selects','this_category'=>'1','not_empty'=>'true','placeholder'=>'Select Hour')); !!}
 								<div class="select-error hide" style="color:#a94442">The hour field is required</div>
 							</div>
 						</div>
 						<div class="col-xs-4">
 							<div class="form-group ">
-								{{ Form::select('hours[0][open_minute]', $minutes, '', array('class'=>'form-control form-selects','this_category'=>'1','not_empty'=>'true','placeholder'=>'Select Minute')); }}
+								{!! Form::select('hours[0][open_minute]', $minutes, '', array('class'=>'form-control form-selects','this_category'=>'1','not_empty'=>'true','placeholder'=>'Select Minute')); !!}
 								<div class="select-error hide" style="color:#a94442">The minute field is required</div>
 							
 							</div>
 						</div>
 						<div class="col-xs-4">
 							<div class="form-group ">
-								{{ Form::select('hours[0][open_ampm]', $ampm, '', array('class'=>'form-control form-selects','this_category'=>'1','not_empty'=>'true','placeholder'=>'Select Minute')); }}
+								{!! Form::select('hours[0][open_ampm]', $ampm, '', array('class'=>'form-control form-selects','this_category'=>'1','not_empty'=>'true','placeholder'=>'Select Minute')); !!}
 								<div class="select-error hide" style="color:#a94442">This field is required</div>
 							</div>
 						</div>
@@ -70,20 +70,20 @@ for ($i=0; $i <= 60; $i++) {
 						<h4 class="list-group-item-heading">End</h4>
 						<div class="col-xs-4">
 							<div class="form-group ">
-								{{ Form::select('hours[0][close_hour]', $hours, '', array('class'=>'form-control form-selects','this_category'=>'1','not_empty'=>'true','placeholder'=>'Select Hour')); }}
+								{!! Form::select('hours[0][close_hour]', $hours, '', array('class'=>'form-control form-selects','this_category'=>'1','not_empty'=>'true','placeholder'=>'Select Hour')); !!}
 								<div class="select-error hide" style="color:#a94442">The hour field is required</div>
 							</div>
 						</div>
 						<div class="col-xs-4">
 							<div class="form-group ">
-								{{ Form::select('hours[0][close_minute]', $minutes, '', array('class'=>'form-control form-selects','this_category'=>'1','not_empty'=>'true','placeholder'=>'Select Minute')); }}
+								{!! Form::select('hours[0][close_minute]', $minutes, '', array('class'=>'form-control form-selects','this_category'=>'1','not_empty'=>'true','placeholder'=>'Select Minute')); !!}
 								<div class="select-error hide" style="color:#a94442">The minute field is required</div>
 							</div>					
 						</div>
 
 						<div class="col-xs-4">
 							<div class="form-group ">
-								{{ Form::select('hours[0][close_ampm]', $ampm, '', array('class'=>'form-control form-selects','this_category'=>'1','not_empty'=>'true','placeholder'=>'Select Minute')); }}
+								{!! Form::select('hours[0][close_ampm]', $ampm, '', array('class'=>'form-control form-selects','this_category'=>'1','not_empty'=>'true','placeholder'=>'Select Minute')); !!}
 								<div class="select-error hide" style="color:#a94442">This field is required</div>
 							</div>					
 						</div>
@@ -97,13 +97,13 @@ for ($i=0; $i <= 60; $i++) {
 				<strong>Monday</strong>
 				<div class="radio">
 					<label>
-						<input type="radio" name="hours[1][open]" id="optionsRadios1" value="open" class="hoursOpenRadio" checked="true">
+						<input type="radio" name="hours[1][open]" id="optionsRadios1" value="open" class="hoursOpenRadio" >
 						Open
 					</label>
 				</div>
 				<div class="radio">
 					<label>
-						<input type="radio" name="hours[1][open]" id="optionsRadios2" value="closed" class="hoursOpenRadio">
+						<input type="radio" name="hours[1][open]" id="optionsRadios2" value="closed" class="hoursOpenRadio" checked="true">
 						Closed
 					</label>
 				</div>
@@ -114,21 +114,21 @@ for ($i=0; $i <= 60; $i++) {
 						<h4 class="list-group-item-heading">Start</h4>
 						<div class="col-xs-4">
 							<div class="form-group ">
-								{{ Form::select('hours[1][open_hour]', $hours, '', array('class'=>'form-control form-selects','this_category'=>'2','not_empty'=>'true','placeholder'=>'Select Hour')); }}
+								{!! Form::select('hours[1][open_hour]', $hours, '', array('class'=>'form-control form-selects','this_category'=>'2','not_empty'=>'true','placeholder'=>'Select Hour')); !!}
 								<div class="select-error hide" style="color:#a94442">The hour field is required</div>
 							</div>					
 						</div>
 
 						<div class="col-xs-4">
 							<div class="form-group ">
-								{{ Form::select('hours[1][open_minute]', $minutes, '', array('class'=>'form-control form-selects','this_category'=>'2','not_empty'=>'true','placeholder'=>'Select Minute')); }}
+								{!! Form::select('hours[1][open_minute]', $minutes, '', array('class'=>'form-control form-selects','this_category'=>'2','not_empty'=>'true','placeholder'=>'Select Minute')); !!}
 								<div class="select-error hide" style="color:#a94442">The minute field is required</div>
 							</div>					
 						</div>
 
 						<div class="col-xs-4">
 							<div class="form-group ">
-								{{ Form::select('hours[1][open_ampm]', $ampm, '', array('class'=>'form-control form-selects','this_category'=>'2','not_empty'=>'true','placeholder'=>'Select Minute')); }}
+								{!! Form::select('hours[1][open_ampm]', $ampm, '', array('class'=>'form-control form-selects','this_category'=>'2','not_empty'=>'true','placeholder'=>'Select Minute')); !!}
 								<div class="select-error hide" style="color:#a94442">This field is required</div>
 							</div>					
 						</div>
@@ -138,21 +138,21 @@ for ($i=0; $i <= 60; $i++) {
 						<h4 class="list-group-item-heading">End</h4>
 						<div class="col-xs-4">
 							<div class="form-group ">
-								{{ Form::select('hours[1][close_hour]', $hours, '', array('class'=>'form-control form-selects','this_category'=>'2','not_empty'=>'true','placeholder'=>'Select Hour')); }}
+								{!! Form::select('hours[1][close_hour]', $hours, '', array('class'=>'form-control form-selects','this_category'=>'2','not_empty'=>'true','placeholder'=>'Select Hour')); !!}
 								<div class="select-error hide" style="color:#a94442">The hour field is required</div>
 							</div>					
 						</div>
 
 						<div class="col-xs-4">
 							<div class="form-group ">
-								{{ Form::select('hours[1][close_minute]', $minutes, '', array('class'=>'form-control form-selects','this_category'=>'2','not_empty'=>'true','placeholder'=>'Select Minute')); }}
+								{!! Form::select('hours[1][close_minute]', $minutes, '', array('class'=>'form-control form-selects','this_category'=>'2','not_empty'=>'true','placeholder'=>'Select Minute')); !!}
 								<div class="select-error hide" style="color:#a94442">The minute field is required</div>
 							</div>					
 						</div>
 
 						<div class="col-xs-4">
 							<div class="form-group ">
-								{{ Form::select('hours[1][close_ampm]', $ampm, '', array('class'=>'form-control form-selects','this_category'=>'2','not_empty'=>'true','placeholder'=>'Select Minute')); }}
+								{!! Form::select('hours[1][close_ampm]', $ampm, '', array('class'=>'form-control form-selects','this_category'=>'2','not_empty'=>'true','placeholder'=>'Select Minute')); !!}
 								<div class="select-error hide" style="color:#a94442">This field is required</div>
 							</div>					
 						</div>
@@ -166,13 +166,13 @@ for ($i=0; $i <= 60; $i++) {
 				<strong>Tuesday</strong>
 				<div class="radio">
 					<label>
-						<input type="radio" name="hours[2][open]" id="optionsRadios1" value="open" class="hoursOpenRadio" checked="true">
+						<input type="radio" name="hours[2][open]" id="optionsRadios1" value="open" class="hoursOpenRadio" >
 						Open
 					</label>
 				</div>
 				<div class="radio">
 					<label>
-						<input type="radio" name="hours[2][open]" id="optionsRadios2" value="closed" class="hoursOpenRadio">
+						<input type="radio" name="hours[2][open]" id="optionsRadios2" value="closed" class="hoursOpenRadio" checked="true">
 						Closed
 					</label>
 				</div>
@@ -183,21 +183,21 @@ for ($i=0; $i <= 60; $i++) {
 						<h4 class="list-group-item-heading">Start</h4>
 						<div class="col-xs-4">
 							<div class="form-group ">
-								{{ Form::select('hours[2][open_hour]', $hours, '', array('class'=>'form-control form-selects','this_category'=>'3','not_empty'=>'true','placeholder'=>'Select Hour')); }}
+								{!! Form::select('hours[2][open_hour]', $hours, '', array('class'=>'form-control form-selects','this_category'=>'3','not_empty'=>'true','placeholder'=>'Select Hour')); !!}
 								<div class="select-error hide" style="color:#a94442">The hour field is required</div>
 							</div>					
 						</div>
 
 						<div class="col-xs-4">
 							<div class="form-group ">
-								{{ Form::select('hours[2][open_minute]', $minutes, '', array('class'=>'form-control form-selects','this_category'=>'3','not_empty'=>'true','placeholder'=>'Select Minute')); }}
+								{!! Form::select('hours[2][open_minute]', $minutes, '', array('class'=>'form-control form-selects','this_category'=>'3','not_empty'=>'true','placeholder'=>'Select Minute')); !!}
 								<div class="select-error hide" style="color:#a94442">The minute field is required</div>
 							</div>					
 						</div>
 
 						<div class="col-xs-4">
 							<div class="form-group ">
-								{{ Form::select('hours[2][open_ampm]', $ampm, '', array('class'=>'form-control form-selects','this_category'=>'3','not_empty'=>'true','placeholder'=>'Select Minute')); }}
+								{!! Form::select('hours[2][open_ampm]', $ampm, '', array('class'=>'form-control form-selects','this_category'=>'3','not_empty'=>'true','placeholder'=>'Select Minute')); !!}
 								<div class="select-error hide" style="color:#a94442">This field is required</div>
 							</div>					
 						</div>
@@ -207,21 +207,21 @@ for ($i=0; $i <= 60; $i++) {
 						<h4 class="list-group-item-heading">End</h4>
 						<div class="col-xs-4">
 							<div class="form-group ">
-								{{ Form::select('hours[2][close_hour]', $hours, '', array('class'=>'form-control form-selects','this_category'=>'3','not_empty'=>'true','placeholder'=>'Select Hour')); }}
+								{!! Form::select('hours[2][close_hour]', $hours, '', array('class'=>'form-control form-selects','this_category'=>'3','not_empty'=>'true','placeholder'=>'Select Hour')); !!}
 								<div class="select-error hide" style="color:#a94442">The hour field is required</div>
 							</div>					
 						</div>
 
 						<div class="col-xs-4">
 							<div class="form-group ">
-								{{ Form::select('hours[2][close_minute]', $minutes, '', array('class'=>'form-control form-selects','this_category'=>'3','not_empty'=>'true','placeholder'=>'Select Minute')); }}
+								{!! Form::select('hours[2][close_minute]', $minutes, '', array('class'=>'form-control form-selects','this_category'=>'3','not_empty'=>'true','placeholder'=>'Select Minute')); !!}
 								<div class="select-error hide" style="color:#a94442">The minute field is required</div>
 							</div>					
 						</div>
 
 						<div class="col-xs-4">
 							<div class="form-group ">
-								{{ Form::select('hours[2][close_ampm]', $ampm, '', array('class'=>'form-control form-selects','this_category'=>'3','not_empty'=>'true','placeholder'=>'Select Minute')); }}
+								{!! Form::select('hours[2][close_ampm]', $ampm, '', array('class'=>'form-control form-selects','this_category'=>'3','not_empty'=>'true','placeholder'=>'Select Minute')); !!}
 								<div class="select-error hide" style="color:#a94442">This field is required</div>
 							</div>					
 						</div>
@@ -235,13 +235,13 @@ for ($i=0; $i <= 60; $i++) {
 				<strong>Wednesday</strong>
 				<div class="radio">
 					<label>
-						<input type="radio" name="hours[3][open]" id="optionsRadios1" value="open" class="hoursOpenRadio" checked="true">
+						<input type="radio" name="hours[3][open]" id="optionsRadios1" value="open" class="hoursOpenRadio" >
 						Open
 					</label>
 				</div>
 				<div class="radio">
 					<label>
-						<input type="radio" name="hours[3][open]" id="optionsRadios2" value="closed" class="hoursOpenRadio">
+						<input type="radio" name="hours[3][open]" id="optionsRadios2" value="closed" class="hoursOpenRadio" checked="true">
 						Closed
 					</label>
 				</div>
@@ -252,21 +252,21 @@ for ($i=0; $i <= 60; $i++) {
 						<h4 class="list-group-item-heading">Start</h4>
 						<div class="col-xs-4">
 							<div class="form-group ">
-								{{ Form::select('hours[3][open_hour]', $hours, '', array('class'=>'form-control form-selects','this_category'=>'4','not_empty'=>'true','placeholder'=>'Select Hour')); }}
+								{!! Form::select('hours[3][open_hour]', $hours, '', array('class'=>'form-control form-selects','this_category'=>'4','not_empty'=>'true','placeholder'=>'Select Hour')); !!}
 								<div class="select-error hide" style="color:#a94442">The hour field is required</div>
 							</div>					
 						</div>
 
 						<div class="col-xs-4">
 							<div class="form-group ">
-								{{ Form::select('hours[3][open_minute]', $minutes, '', array('class'=>'form-control form-selects','this_category'=>'4','not_empty'=>'true','placeholder'=>'Select Minute')); }}
+								{!! Form::select('hours[3][open_minute]', $minutes, '', array('class'=>'form-control form-selects','this_category'=>'4','not_empty'=>'true','placeholder'=>'Select Minute')); !!}
 								<div class="select-error hide" style="color:#a94442">The minute field is required</div>
 							</div>					
 						</div>
 
 						<div class="col-xs-4">
 							<div class="form-group ">
-								{{ Form::select('hours[3][open_ampm]', $ampm, '', array('class'=>'form-control form-selects','this_category'=>'4','not_empty'=>'true','placeholder'=>'Select Minute')); }}
+								{!! Form::select('hours[3][open_ampm]', $ampm, '', array('class'=>'form-control form-selects','this_category'=>'4','not_empty'=>'true','placeholder'=>'Select Minute')); !!}
 								<div class="select-error hide" style="color:#a94442">This field is required</div>
 							</div>					
 						</div>
@@ -276,21 +276,21 @@ for ($i=0; $i <= 60; $i++) {
 						<h4 class="list-group-item-heading">End</h4>
 						<div class="col-xs-4">
 							<div class="form-group ">
-								{{ Form::select('hours[3][close_hour]', $hours, '', array('class'=>'form-control form-selects','this_category'=>'4','not_empty'=>'true','placeholder'=>'Select Hour')); }}
+								{!! Form::select('hours[3][close_hour]', $hours, '', array('class'=>'form-control form-selects','this_category'=>'4','not_empty'=>'true','placeholder'=>'Select Hour')); !!}
 								<div class="select-error hide" style="color:#a94442">The hour field is required</div>
 							</div>					
 						</div>
 
 						<div class="col-xs-4">
 							<div class="form-group ">
-								{{ Form::select('hours[3][close_minute]', $minutes, '', array('class'=>'form-control form-selects','this_category'=>'4','not_empty'=>'true','placeholder'=>'Select Minute')); }}
+								{!! Form::select('hours[3][close_minute]', $minutes, '', array('class'=>'form-control form-selects','this_category'=>'4','not_empty'=>'true','placeholder'=>'Select Minute')); !!}
 								<div class="select-error hide" style="color:#a94442">The minute field is required</div>
 							</div>					
 						</div>
 
 							<div class="col-xs-4">
 								<div class="form-group ">
-									{{ Form::select('hours[3][close_ampm]', $ampm, '', array('class'=>'form-control form-selects','this_category'=>'4','not_empty'=>'true','placeholder'=>'Select Minute')); }}
+									{!! Form::select('hours[3][close_ampm]', $ampm, '', array('class'=>'form-control form-selects','this_category'=>'4','not_empty'=>'true','placeholder'=>'Select Minute')); !!}
 									<div class="select-error hide" style="color:#a94442">This field is required</div>
 								</div>					
 							</div>
@@ -304,13 +304,13 @@ for ($i=0; $i <= 60; $i++) {
 					<strong>Thursday</strong>
 					<div class="radio">
 						<label>
-							<input type="radio" name="hours[4][open]" id="optionsRadios1" value="open" class="hoursOpenRadio" checked="true">
+							<input type="radio" name="hours[4][open]" id="optionsRadios1" value="open" class="hoursOpenRadio" >
 							Open
 						</label>
 					</div>
 					<div class="radio">
 						<label>
-							<input type="radio" name="hours[4][open]" id="optionsRadios2" value="closed" class="hoursOpenRadio">
+							<input type="radio" name="hours[4][open]" id="optionsRadios2" value="closed" class="hoursOpenRadio" checked="true">
 							Closed
 						</label>
 					</div>
@@ -321,21 +321,21 @@ for ($i=0; $i <= 60; $i++) {
 							<h4 class="list-group-item-heading">Start</h4>
 							<div class="col-xs-4">
 								<div class="form-group ">
-									{{ Form::select('hours[4][open_hour]', $hours, '', array('class'=>'form-control form-selects','this_category'=>'5','not_empty'=>'true','placeholder'=>'Select Hour')); }}
+									{!! Form::select('hours[4][open_hour]', $hours, '', array('class'=>'form-control form-selects','this_category'=>'5','not_empty'=>'true','placeholder'=>'Select Hour')); !!}
 									<div class="select-error hide" style="color:#a94442">The hour field is required</div>
 								</div>					
 							</div>
 
 							<div class="col-xs-4">
 								<div class="form-group ">
-									{{ Form::select('hours[4][open_minute]', $minutes, '', array('class'=>'form-control form-selects','this_category'=>'5','not_empty'=>'true','placeholder'=>'Select Minute')); }}
+									{!! Form::select('hours[4][open_minute]', $minutes, '', array('class'=>'form-control form-selects','this_category'=>'5','not_empty'=>'true','placeholder'=>'Select Minute')); !!}
 									<div class="select-error hide" style="color:#a94442">The minute field is required</div>
 								</div>
 							</div>
 
 							<div class="col-xs-4">
 								<div class="form-group ">
-									{{ Form::select('hours[4][open_ampm]', $ampm, '', array('class'=>'form-control form-selects','this_category'=>'5','not_empty'=>'true','placeholder'=>'Select Minute')); }}
+									{!! Form::select('hours[4][open_ampm]', $ampm, '', array('class'=>'form-control form-selects','this_category'=>'5','not_empty'=>'true','placeholder'=>'Select Minute')); !!}
 								<div class="select-error hide" style="color:#a94442">This field is required</div>
 								</div>
 							</div>
@@ -345,21 +345,21 @@ for ($i=0; $i <= 60; $i++) {
 							<h4 class="list-group-item-heading">End</h4>
 							<div class="col-xs-4">
 								<div class="form-group ">
-									{{ Form::select('hours[4][close_hour]', $hours, '', array('class'=>'form-control form-selects','this_category'=>'5','not_empty'=>'true','placeholder'=>'Select Hour')); }}
+									{!! Form::select('hours[4][close_hour]', $hours, '', array('class'=>'form-control form-selects','this_category'=>'5','not_empty'=>'true','placeholder'=>'Select Hour')); !!}
 									<div class="select-error hide" style="color:#a94442">The hour field is required</div>
 								</div>
 							</div>
 
 							<div class="col-xs-4">
 								<div class="form-group ">
-									{{ Form::select('hours[4][close_minute]', $minutes, '', array('class'=>'form-control form-selects','this_category'=>'5','not_empty'=>'true','placeholder'=>'Select Minute')); }}
+									{!! Form::select('hours[4][close_minute]', $minutes, '', array('class'=>'form-control form-selects','this_category'=>'5','not_empty'=>'true','placeholder'=>'Select Minute')); !!}
 									<div class="select-error hide" style="color:#a94442">The minute field is required</div>
 								</div>
 							</div>
 
 							<div class="col-xs-4">
 								<div class="form-group ">
-									{{ Form::select('hours[4][close_ampm]', $ampm, '', array('class'=>'form-control form-selects','this_category'=>'5','not_empty'=>'true','placeholder'=>'Select Minute')); }}
+									{!! Form::select('hours[4][close_ampm]', $ampm, '', array('class'=>'form-control form-selects','this_category'=>'5','not_empty'=>'true','placeholder'=>'Select Minute')); !!}
 									<div class="select-error hide" style="color:#a94442">This field is required</div>
 								</div>
 							</div>
@@ -373,13 +373,13 @@ for ($i=0; $i <= 60; $i++) {
 					<strong>Friday</strong>
 					<div class="radio">
 						<label>
-							<input type="radio" name="hours[5][open]" id="optionsRadios1" value="open" class="hoursOpenRadio" checked="true">
+							<input type="radio" name="hours[5][open]" id="optionsRadios1" value="open" class="hoursOpenRadio" >
 							Open
 						</label>
 					</div>
 					<div class="radio">
 						<label>
-							<input type="radio" name="hours[5][open]" id="optionsRadios2" value="closed" class="hoursOpenRadio">
+							<input type="radio" name="hours[5][open]" id="optionsRadios2" value="closed" class="hoursOpenRadio" checked="true">
 							Closed
 						</label>
 					</div>
@@ -390,21 +390,21 @@ for ($i=0; $i <= 60; $i++) {
 							<h4 class="list-group-item-heading">Start</h4>
 							<div class="col-xs-4">
 								<div class="form-group ">
-									{{ Form::select('hours[5][open_hour]', $hours, '', array('class'=>'form-control form-selects','this_category'=>'6','not_empty'=>'true','placeholder'=>'Select Hour')); }}
+									{!! Form::select('hours[5][open_hour]', $hours, '', array('class'=>'form-control form-selects','this_category'=>'6','not_empty'=>'true','placeholder'=>'Select Hour')); !!}
 									<div class="select-error hide" style="color:#a94442">The hour field is required</div>
 								</div>					
 							</div>
 
 							<div class="col-xs-4">
 								<div class="form-group ">
-									{{ Form::select('hours[5][open_minute]', $minutes, '', array('class'=>'form-control form-selects','this_category'=>'6','not_empty'=>'true','placeholder'=>'Select Minute')); }}
+									{!! Form::select('hours[5][open_minute]', $minutes, '', array('class'=>'form-control form-selects','this_category'=>'6','not_empty'=>'true','placeholder'=>'Select Minute')); !!}
 									<div class="select-error hide" style="color:#a94442">The minute field is required</div>
 								</div>					
 							</div>
 
 							<div class="col-xs-4">
 								<div class="form-group ">
-									{{ Form::select('hours[5][open_ampm]', $ampm, '', array('class'=>'form-control form-selects','this_category'=>'6','not_empty'=>'true','placeholder'=>'Select Minute')); }}
+									{!! Form::select('hours[5][open_ampm]', $ampm, '', array('class'=>'form-control form-selects','this_category'=>'6','not_empty'=>'true','placeholder'=>'Select Minute')); !!}
 									<div class="select-error hide" style="color:#a94442">This field is required</div>
 								</div>					
 							</div>
@@ -414,14 +414,14 @@ for ($i=0; $i <= 60; $i++) {
 							<h4 class="list-group-item-heading">End</h4>
 							<div class="col-xs-4">
 								<div class="form-group ">
-									{{ Form::select('hours[5][close_hour]', $hours, '', array('class'=>'form-control form-selects','this_category'=>'6','not_empty'=>'true','placeholder'=>'Select Hour')); }}
+									{!! Form::select('hours[5][close_hour]', $hours, '', array('class'=>'form-control form-selects','this_category'=>'6','not_empty'=>'true','placeholder'=>'Select Hour')); !!}
 									<div class="select-error hide" style="color:#a94442">The hour field is required</div>
 								</div>					
 							</div>
 
 							<div class="col-xs-4">
 								<div class="form-group ">
-									{{ Form::select('hours[5][close_minute]', $minutes, '', array('class'=>'form-control form-selects','this_category'=>'6','not_empty'=>'true','placeholder'=>'Select Minute')); }}
+									{!! Form::select('hours[5][close_minute]', $minutes, '', array('class'=>'form-control form-selects','this_category'=>'6','not_empty'=>'true','placeholder'=>'Select Minute')); !!}
 									<div class="select-error hide" style="color:#a94442">The minute field is required</div>
 								</div>					
 							</div>
@@ -429,7 +429,7 @@ for ($i=0; $i <= 60; $i++) {
 
 							<div class="col-xs-4">
 								<div class="form-group ">
-									{{ Form::select('hours[5][close_ampm]', $ampm, '', array('class'=>'form-control form-selects','this_category'=>'6','not_empty'=>'true','placeholder'=>'Select Minute')); }}
+									{!! Form::select('hours[5][close_ampm]', $ampm, '', array('class'=>'form-control form-selects','this_category'=>'6','not_empty'=>'true','placeholder'=>'Select Minute')); !!}
 									<div class="select-error hide" style="color:#a94442">This field is required</div>
 								</div>					
 							</div>
@@ -443,13 +443,13 @@ for ($i=0; $i <= 60; $i++) {
 					<strong>Saturday</strong>
 					<div class="radio">
 						<label>
-							<input type="radio" name="hours[6][open]" id="optionsRadios1" value="open" class="hoursOpenRadio" checked="true">
+							<input type="radio" name="hours[6][open]" id="optionsRadios1" value="open" class="hoursOpenRadio" >
 							Open
 						</label>
 					</div>
 					<div class="radio">
 						<label>
-							<input type="radio" name="hours[6][open]" id="optionsRadios2" value="closed" class="hoursOpenRadio">
+							<input type="radio" name="hours[6][open]" id="optionsRadios2" value="closed" class="hoursOpenRadio" checked="true">
 							Closed
 						</label>
 					</div>
@@ -460,21 +460,21 @@ for ($i=0; $i <= 60; $i++) {
 							<h4 class="list-group-item-heading">Start</h4>
 							<div class="col-xs-4">
 								<div class="form-group ">
-									{{ Form::select('hours[6][open_hour]', $hours, '', array('class'=>'form-control form-selects','this_category'=>'7','not_empty'=>'true','placeholder'=>'Select Hour')); }}
+									{!! Form::select('hours[6][open_hour]', $hours, '', array('class'=>'form-control form-selects','this_category'=>'7','not_empty'=>'true','placeholder'=>'Select Hour')); !!}
 									<div class="select-error hide" style="color:#a94442">The hour field is required</div>
 								</div>					
 							</div>
 
 							<div class="col-xs-4">
 								<div class="form-group ">
-									{{ Form::select('hours[6][open_minute]', $minutes, '', array('class'=>'form-control form-selects','this_category'=>'7','not_empty'=>'true','placeholder'=>'Select Minute')); }}
+									{!! Form::select('hours[6][open_minute]', $minutes, '', array('class'=>'form-control form-selects','this_category'=>'7','not_empty'=>'true','placeholder'=>'Select Minute')); !!}
 									<div class="select-error hide" style="color:#a94442">The minute field is required</div>
 								</div>					
 							</div>
 
 							<div class="col-xs-4">
 								<div class="form-group ">
-									{{ Form::select('hours[6][open_ampm]', $ampm, '', array('class'=>'form-control form-selects','this_category'=>'7','not_empty'=>'true','placeholder'=>'Select Minute')); }}
+									{!! Form::select('hours[6][open_ampm]', $ampm, '', array('class'=>'form-control form-selects','this_category'=>'7','not_empty'=>'true','placeholder'=>'Select Minute')); !!}
 									<div class="select-error hide" style="color:#a94442">This field is required</div>
 								</div>					
 							</div>
@@ -484,21 +484,21 @@ for ($i=0; $i <= 60; $i++) {
 							<h4 class="list-group-item-heading">End</h4>
 							<div class="col-xs-4">
 								<div class="form-group ">
-									{{ Form::select('hours[6][close_hour]', $hours, '', array('class'=>'form-control form-selects','this_category'=>'7','not_empty'=>'true','placeholder'=>'Select Hour')); }}
+									{!! Form::select('hours[6][close_hour]', $hours, '', array('class'=>'form-control form-selects','this_category'=>'7','not_empty'=>'true','placeholder'=>'Select Hour')); !!}
 									<div class="select-error hide" style="color:#a94442">The hour field is required</div>
 								</div>					
 							</div>
 
 							<div class="col-xs-4">
 								<div class="form-group ">
-									{{ Form::select('hours[6][close_minute]', $minutes, '', array('class'=>'form-control form-selects','this_category'=>'7','not_empty'=>'true','placeholder'=>'Select Minute')); }}
+									{!! Form::select('hours[6][close_minute]', $minutes, '', array('class'=>'form-control form-selects','this_category'=>'7','not_empty'=>'true','placeholder'=>'Select Minute')); !!}
 									<div class="select-error hide" style="color:#a94442">The minute field is required</div>
 								</div>					
 							</div>
 
 							<div class="col-xs-4">
 								<div class="form-group ">
-									{{ Form::select('hours[6][close_ampm]', $ampm, '', array('class'=>'form-control form-selects','this_category'=>'7','not_empty'=>'true','placeholder'=>'Select Minute')); }}
+									{!! Form::select('hours[6][close_ampm]', $ampm, '', array('class'=>'form-control form-selects','this_category'=>'7','not_empty'=>'true','placeholder'=>'Select Minute')); !!}
 									<div class="select-error hide" style="color:#a94442">This field is required</div>
 								</div>					
 							</div>

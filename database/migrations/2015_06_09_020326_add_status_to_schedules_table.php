@@ -12,10 +12,6 @@ class AddStatusToSchedulesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('schedules', function(Blueprint $table)
-		{
-			$table->tinyInteger('status')->nullable()->after('zipcode');
-		});
 	}
 
 
@@ -26,10 +22,6 @@ class AddStatusToSchedulesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('schedules', function(Blueprint $table)
-		{
-			
-		});
 	}
 
 }

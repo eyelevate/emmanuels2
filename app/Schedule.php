@@ -1,18 +1,25 @@
 <?php
+namespace App;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Schedule extends \Eloquent {
+use App\Job;
+use App\User;
+use App\Admin;
+use App\Role;
+use App\Permission;
+use App\PermissionRole;
+use App\Website;
+use App\Company;
+use App\Menu;
+use App\Page;
+class Schedule extends Model  {
 	protected $fillable = [];
-	use SoftDeletingTrait;
+	use SoftDeletes;
 
 	public static $rules_add = array(
-		//DISABLED FOR NOW, UNTIL ADDING CONDITION FROM NEW ADDRESS
-		// 'name'=>'required|min:1',
-		// 'telephone'=>'required|min:1',
-		// 'street'=>'required|min:1',
-		// 'unit'=>'required|min:1',
-		// 'city'=>'required|min:1',
-		// 'state'=>'required|min:1',
-		// 'zipcode'=>'required|min:1',
+		'title'=>'required|min:1',
+		'description'=>'required|min:1',
 		);
 
 		public static $schedules_add_frontend = array(
@@ -31,47 +38,15 @@ class Schedule extends \Eloquent {
 	public static function prepareSchedules($data) {
 		if(isset($data)) {
 			foreach ($data as $key => $value) {
-				if(isset($data[$key]['type'])) {
-					switch($data[$key]['type']) {
-						case 0:
-						$data[$key]['type'] = 'Work Order';
-						break;
-
-						case 1:
-						$data[$key]['type'] = 'Estimate';
-						break;
-					}
-				}
-
-				if(isset($data[$key]['phone'])) {
-					$data[$key]['phone'] = Job::format_phone($data[$key]['phone'],'US');
-				}
-
-
-				if(isset($data[$key]['pickup_date'])) {
-					$data[$key]['pickup_date'] = date("l, d F, Y",strtotime($data[$key]['pickup_date']));
-				}
-				if(isset($data[$key]['delivery_date'])) {
-					$data[$key]['delivery_date'] = date("l, d F, Y",strtotime($data[$key]['delivery_date']));
-				}
-
-				if(isset($data[$key]['created_at'])) {
-					$data[$key]['created_html'] = date("l, d F, Y",strtotime($data[$key]['created_at']));
-				}
-
-
-				if(isset($data[$key]['street'],$data[$key]['street'],$data[$key]['unit'],$data[$key]['zipcode'],$data[$key]['city'])) {
-					$data[$key]['address'] = $data[$key]['unit'].' '.$data[$key]['street'].', '.$data[$key]['city'].', '.$data[$key]['state'].', '.$data[$key]['zipcode'];
-				}
 
 				if(isset($data[$key]['status'])) {
 					switch($data[$key]['status']) {
 						case 1:
-						$data[$key]['status_html'] = '<span class="label label-success">active</span>';
+						$data[$key]['status_html'] = '<span class="label label-success">Active</span>';
 						break;
 
 						case 2:
-						$data[$key]['status_html'] = '<span class="label label-warning">not active</span>';
+						$data[$key]['status_html'] = '<span class="label label-warning">Deleted</span>';
 						break;
 
 						case 3:
@@ -83,6 +58,90 @@ class Schedule extends \Eloquent {
 		}
 		return $data;
 	}
+	public static function prepareSchedulesForEdit($data) {
+		if(isset($data)) {
+				if(isset($data[$key]['status'])) {
+					switch($data[$key]['status']) {
+						case 1:
+						$data[$key]['status_html'] = '<span class="label label-success">Active</span>';
+						break;
+
+						case 2:
+						$data[$key]['status_html'] = '<span class="label label-warning">Deleted</span>';
+						break;
+
+						case 3:
+						$data[$key]['status_html'] = '<span class="label label-danger">errors</span>';
+						break;
+					}
+				}
+		}
+		return $data;
+	}
+
+	public static function prepareSelect()
+	{
+		return array(
+			'' => 'Select Type',
+			'1'	=> 'Active',
+			'2' => 'Deleted'
+			);
+	}
+	// public static function prepareSchedules($data) {
+	// 	if(isset($data)) {
+	// 		foreach ($data as $key => $value) {
+	// 			if(isset($data[$key]['type'])) {
+	// 				switch($data[$key]['type']) {
+	// 					case 0:
+	// 					$data[$key]['type'] = 'Work Order';
+	// 					break;
+
+	// 					case 1:
+	// 					$data[$key]['type'] = 'Estimate';
+	// 					break;
+	// 				}
+	// 			}
+
+	// 			if(isset($data[$key]['phone'])) {
+	// 				$data[$key]['phone'] = Job::format_phone($data[$key]['phone'],'US');
+	// 			}
+
+
+	// 			if(isset($data[$key]['pickup_date'])) {
+	// 				$data[$key]['pickup_date'] = date("l, d F, Y",strtotime($data[$key]['pickup_date']));
+	// 			}
+	// 			if(isset($data[$key]['delivery_date'])) {
+	// 				$data[$key]['delivery_date'] = date("l, d F, Y",strtotime($data[$key]['delivery_date']));
+	// 			}
+
+	// 			if(isset($data[$key]['created_at'])) {
+	// 				$data[$key]['created_html'] = date("l, d F, Y",strtotime($data[$key]['created_at']));
+	// 			}
+
+
+	// 			if(isset($data[$key]['street'],$data[$key]['street'],$data[$key]['unit'],$data[$key]['zipcode'],$data[$key]['city'])) {
+	// 				$data[$key]['address'] = $data[$key]['unit'].' '.$data[$key]['street'].', '.$data[$key]['city'].', '.$data[$key]['state'].', '.$data[$key]['zipcode'];
+	// 			}
+
+	// 			if(isset($data[$key]['status'])) {
+	// 				switch($data[$key]['status']) {
+	// 					case 1:
+	// 					$data[$key]['status_html'] = '<span class="label label-success">active</span>';
+	// 					break;
+
+	// 					case 2:
+	// 					$data[$key]['status_html'] = '<span class="label label-warning">not active</span>';
+	// 					break;
+
+	// 					case 3:
+	// 					$data[$key]['status_html'] = '<span class="label label-danger">errors</span>';
+	// 					break;
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+	// 	return $data;
+	// }
 
 	public static function prepareOrderForm($count,$count_form) {
 		$services = Service::all();

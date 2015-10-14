@@ -12,13 +12,7 @@ class CreateScheduleRulesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('schedule_rules', function(Blueprint $table)
-		{
-			$table->increments('id');
-			$table->string('title');
-			$table->text('body');
-			$table->timestamps();
-		});
+
 	}
 
 
@@ -29,7 +23,6 @@ class CreateScheduleRulesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('schedule_rules');
 	}
 
 }

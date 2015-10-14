@@ -26,6 +26,11 @@ use App\Website;
 use App\Company;
 use App\Menu;
 use App\Page;
+use App\Schedule;
+use App\ScheduleLimit;
+use App\ScheduleOverwrite;
+use App\Delivery;
+
 class ScheduleRulesController extends Controller {
 	protected $layout = 'layouts.admin';
 	/**
@@ -34,36 +39,78 @@ class ScheduleRulesController extends Controller {
 	 * @return Response
 	 */
 	public function __construct() {
-		// switch(Auth::user()->roles){
-		// 	case 2:
-		// 		$this->layout = "layouts.admin";
-		// 	break;
-		// 	case 3:
-		// 		$this->layout = "layouts.admin_owners";
-		// 	break;
-		// 	case 4:
-		// 		$this->layout = "layouts.admin_employees";
-		// 	break;
-		// 	case 5:
-		// 		$this->layout = "layouts.admin_members";
-		// 	break;
-		// 	case 6:
-		// 		$this->layout = "layouts.admin";
-		// 	break;
-		// }
-        $this->beforeFilter('csrf', array('on'=>'post'));
+        // // Define layout
+        $this->layout = 'layouts.admins';
+        $this_username = null;
+        //PROFILE IMAGE
+        $this_user_profile_image = null;
+        if (Auth::check()) {
+        $this_user = User::find(Auth::user()->id);
+        $this_username = $this_user->username;
 
-	    
+        //PROFILE IMAGE
+        $this_user_profile_image = Job::imageValidator($this_user->profile_image);
+        }
+
+        View::share('this_username',$this_username);
+        View::share('this_user_profile_image',$this_user_profile_image);
+        $notif = Job::prepareNotifications();
+        View::share('notif',$notif);
+
+
+        //
+        $this->role_id = (isset(Auth::user()->roles)) ? Auth::user()->roles : null;
+		$init_message = Website::WebInit();
 	}
 
 	public function getIndex()
 	{
-		$this->layout->content = View::make('schedule_rules.index');
+		return view('schedule_rules.index')
+			->with('layout',$this->layout);
 	}
 
 	public function getAdd()
 	{
-		$this->layout->content = View::make('schedule_rules.add');
+		
+		//SCHEDULE LIMITS
+		$schedule_limits = ScheduleLimit::get();
+		$limits_array = null;
+		if (isset($schedule_limits)) {
+			foreach ($schedule_limits as $lkey => $lvalue) {
+			
+			$limits_array[$lkey]['open'] = $lvalue['state']==1?'open':'close';
+
+			$open_date =  $lvalue['schedule_hours_open'];
+			$close_date =  $lvalue['schedule_hours_close'];
+
+			$limits_array[$lkey]['open_hour'] = date('H',strtotime($open_date));
+			$limits_array[$lkey]['open_minute'] = date('i',strtotime($open_date));
+			$limits_array[$lkey]['open_ampm'] = date('a',strtotime($open_date));
+			$limits_array[$lkey]['close_hour'] = date('H',strtotime($close_date));
+			$limits_array[$lkey]['close_minute'] = date('i',strtotime($close_date));
+			$limits_array[$lkey]['close_ampm'] = date('a',strtotime($close_date));
+			}
+		}
+
+		//SCHEDULE OVERWRITE
+		$schedule_overwrites = ScheduleOverwrite::get();
+		$overwrite_array = null;
+		if (isset($schedule_overwrites)) {
+			foreach ($schedule_overwrites as $okey => $ovalue) {
+				// TYPE 1 = SINGLE, TYPE 2 = RANGE
+				if ($ovalue['type'] == 1) {//SINGLE
+					$date =  $ovalue['overwrite_date'];
+					$open =  $ovalue['overwrite_date'];
+					$close =  $ovalue['overwrite_date'];
+					$overwrite_array[$okey]['type'] = $ovalue['type'] == 1?'single':'range';
+				} else{//RANGE
+					$overwrite_array[$okey]['type'] = $ovalue['type'] == 1?'single':'range';
+				}
+			}
+		}
+		
+		return view('schedule_rules.add')
+		->with('layout',$this->layout);
 	}
 	public function postAdd()
 	{
@@ -82,5 +129,36 @@ class ScheduleRulesController extends Controller {
 	public function postDelete()
 	{
 		
+	}
+
+		public function postAddOverwrite() {
+		if(Request::ajax()) {
+			$current_count = Input::get('count');
+			$html = ScheduleLimit::prepareNewOverwrite($current_count);
+			return Response::json(array(
+				'html' => $html
+				));
+		}
+	}
+	
+
+	public function postValidateHours() {
+		if(Request::ajax()) {
+			$data = Input::get('data');
+			$validation_result = ScheduleLimit::prepareValidationResults($data);
+			return Response::json(array(
+				'validation_result' => $validation_result,
+				));
+		}
+	}
+
+	public function postValidateOverWriteHours() {
+		if(Request::ajax()) {
+			$data = Input::get('data');
+			$validation_result = ScheduleLimit::prepareValidationOverWriteResults($data);
+			return Response::json(array(
+				'validation_result' => $validation_result,
+				));
+		}
 	}
 }

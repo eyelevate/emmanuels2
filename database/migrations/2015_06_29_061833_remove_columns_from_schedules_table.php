@@ -12,10 +12,7 @@ class RemoveColumnsFromSchedulesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('schedules', function(Blueprint $table)
-		{
-			$table->dropColumn(['company_id','service_id']);
-		});
+
 	}
 
 
@@ -26,10 +23,7 @@ class RemoveColumnsFromSchedulesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('schedules', function(Blueprint $table)
-		{
-			
-		});
+
 	}
 
 }

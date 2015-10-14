@@ -12,10 +12,7 @@ class RemoveStartEndFromSchedulesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('schedules', function(Blueprint $table)
-		{
-			$table->dropColumn(['start','end']);
-		});
+
 	}
 
 
@@ -26,10 +23,6 @@ class RemoveStartEndFromSchedulesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('schedules', function(Blueprint $table)
-		{
-			
-		});
 	}
 
 }

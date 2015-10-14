@@ -12,12 +12,6 @@ class CreateSchedulesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('schedules', function(Blueprint $table)
-		{
-			$table->increments('id');
-			$table->softDeletes();
-			$table->timestamps();
-		});
 	}
 
 
@@ -28,7 +22,6 @@ class CreateSchedulesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('schedules');
 	}
 
 }

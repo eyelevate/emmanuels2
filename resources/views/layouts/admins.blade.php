@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Eyelevate Admin</title>
+    <title>Emmanuels Admin</title>
 
     <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -52,7 +52,7 @@
                 <div class="left_col scroll-view">
 
                     <div class="navbar nav_title" style="border: 0;">
-                        <a href="{!! route('admins_index') !!}" class="site_title"> <span>Eyelevate - Admin</span></a>
+                        <a href="{!! route('admins_index') !!}" class="site_title"> <span>Emmanuels - Admin</span></a>
                     </div>
                     <div class="clearfix"></div>
 
@@ -75,13 +75,14 @@
 
                         <div class="menu_section">
                             <ul class="nav side-menu">
-                                <li class="li-menus"><a class="home-a-tag"><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu" style="display: none">
-                                        <li><a href="{!! route('admins_index') !!}">Dashboard</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="li-menus"><a><i class="fa fa-edit"></i> Access Control List <span class="fa fa-chevron-down"></span></a>
+
+
+
+
+
+
+
+                                <li class="li-menus"><a class="first-li-a"><i class="fa fa-edit"></i> Access Control List <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu" style="display: none">
                                         <li><a href="{!! route('roles_index') !!}">Roles</a>
                                         </li>
@@ -91,6 +92,7 @@
                                         </li>
                                     </ul>
                                 </li>
+
                                 <li class="li-menus"><a><i class="fa fa-wrench"></i> Users <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu" style="display: none">
                                         <li><a href="{!! route('users_index') !!}">Index</a>
@@ -105,32 +107,21 @@
                                         </li>
                                     </ul>
                                 </li>
-
-
-                                <li class="li-menus"><a><i class="fa fa-pencil-square-o"></i> Pages <span class="fa fa-chevron-down"></span></a>
+                                <li class="li-menus"><a><i class="fa fa-newspaper-o"></i> Contents <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu" style="display: none">
-                                        <li><a href="{!! route('pages_index') !!}">Index</a>
-                                        </li>
+                                        <li>Pages</li>
+                                            <li class="navLi" ><a href="{!! route('pages_index') !!}">Index</a>
+                                            </li>
+                                        <li>Menus</li>
+                                            <li class="navLi"><a href="{!! route('menus_index') !!}">Index</a>
+                                            </li>
+                                            <li class="navLi"><a href="{!! route('menus_order') !!}">Set Order</a>
+                                            </li>
+                                        <li>Menu Items</li>
+                                            <li class="navLi"><a href="{!! route('menu-items_index') !!}">Index</a>
+                                            </li>
                                     </ul>
-                                </li>
-         
-
-                                <li class="li-menus"><a><i class="fa fa-list-alt"></i> Menus <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu" style="display: none">
-                                        <li><a href="{!! route('menus_index') !!}">Index</a>
-                                        </li>
-                                        <li><a href="{!! route('menus_order') !!}">Set Order</a>
-                                        </li>
-                                    </ul>
-                                </li>
-         
-
-                                <li class="li-menus"><a><i class="fa fa-list-alt"></i> Menu Items <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu" style="display: none">
-                                        <li><a href="{!! route('menu-items_index') !!}">Index</a>
-                                        </li>
-                                    </ul>
-                                </li>
+                                </li>  
 
                                 <li class="li-menus"><a><i class="fa fa-list-alt"></i> Resources <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu" style="display: none">
@@ -138,6 +129,24 @@
                                         </li>
                                     </ul>
                                 </li>
+
+                                <li class="li-menus"><a><i class="fa fa-calendar"></i> Schedules <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu" style="display: none">
+                                            <li class="navLi" ><a href="{!! route('schedules_index') !!}">Index</a>
+                                            </li>
+                                            <li class="navLi" ><a href="{!! route('schedules_add') !!}">Add</a>
+                                            </li>
+                                        <li>Rules</li>
+                                            <li class="navLi"><a href="{!! route('rules_index') !!}">Index</a>
+                                            </li>
+                                            <li class="navLi"><a href="{!! route('rules_add') !!}">Add</a>
+                                            </li>
+                                        <li>Menu Items</li>
+                                            <li class="navLi"><a href="{!! route('menu-items_index') !!}">Index</a>
+                                            </li>
+                                    </ul>
+                                </li>  
+
          
                             </ul>
                         </div>

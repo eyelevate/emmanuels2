@@ -225,7 +225,6 @@ class UsersController extends Controller
                         foreach ($value as $column_name => $column_value) {
                             $users = User::where($column_name,'LIKE','%'.$column_value.'%')->get();
                         }
-
                         if(count($users) == 0) {
                             $status = 401;
                             $message = 'No such user';

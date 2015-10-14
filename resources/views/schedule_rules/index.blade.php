@@ -1,3 +1,4 @@
+@extends($layout)
 @section('stylesheets')
 @stop
 @section('scripts')
