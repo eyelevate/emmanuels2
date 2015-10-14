@@ -11,7 +11,6 @@ pages = {
                 'X-CSRF-Token': $('meta[name=csrf-token]').attr('content')
             }
         });
-        
         $("#overwrite-date-single-0").datepicker({
             dateFormat: 'DD, d MM, yy',
             minDate: 0,
@@ -142,20 +141,25 @@ pages = {
     },
     stepy: function() {
         $("#deliveryStepy li a").click(function(e) {
+
             var href = $(this).attr('href');
             previous_step = $("#deliveryStepy .active");
+            var _this = $(this);
             if (!($(this).parents('li:first').hasClass('disabled'))) {
-
                 // IF THE PREVIOUS STEP WAS 1
                 if (previous_step.attr('id') == 'schedule-stepy') {
                     //VALIDATE BEFORE CHANGING THE STEP
-                    var _this = $(this);
-                    validate_step_1(_this, href, "stepy");
+                    if (href != '#setup') {
+                        validate_step_2(_this, href, "stepy");                       
+                    } else {
+                        validate_step_1(_this, href, "stepy");
+                    }
+
                     
                 } else if(previous_step.attr('id') == 'overwrite-stepy'){
                     //VALIDATE DATA IF THE NEXT STEP WAS BLACKOUT DATES
                     if (href == "#blackout_date") {
-                        validate_step_2(_this, href, "stepy");
+                        validate_step_3(_this, href, "stepy");
                     } else {
                         $("#deliveryStepy li").removeClass('active');
                         $(this).parents('li:first').addClass('active');
@@ -177,10 +181,14 @@ pages = {
             var this_step = parseInt($(this).attr('step'));
             switch(this_step){
                 case 1:
+
                     validate_step_1(_this, null, "btn");
                 break;
                 case 2:
                     validate_step_2(_this, null, "btn");
+                break;
+                case 3:
+                    validate_step_3(_this, null, "btn");
                 break;
             }
             
@@ -277,6 +285,7 @@ request = {
         );
     },
     validate_hours_ajax: function(data, this_this, href, type) {
+
         // TYPE = STEPY OR THE NEXT BTN
         var token = $('meta[name=csrf-token]').attr('content');
         $.post(
@@ -311,13 +320,10 @@ request = {
                         });
                         
                     };
-
-
-
-
                         if (error == 0) {
 
                             if (type == "stepy") {
+
                                 $("#deliveryStepy li").removeClass('active');
                                 this_this.parents('li:first').addClass('active');
                                 $(".steps").addClass('hide');
@@ -402,10 +408,25 @@ request = {
 }
 
 function validate_step_1(_this, href, type) {
+    if (type == "stepy") {
+        $("#deliveryStepy li").removeClass('active');
+        _this.parents('li:first').addClass('active');
+        $(".steps").addClass('hide');
+        $(href).removeClass('hide');
+    } else {
+        $("#deliveryStepy .active").next('li').addClass('row-active');
+        $("#deliveryStepy li").removeClass('active');
+        $(document).find(".row-active").addClass('active').removeClass('row-active');
+        var _href = $(document).find('#deliveryStepy .active a').attr('href');
+        $(".steps").addClass('hide');
+        $(_href).removeClass('hide');
+    }
+}
+
+function validate_step_2(_this, href, type){
     var error_count = 0;
     //STEPY WAS CLICKED
     if (type == "stepy") {
-
         clear_all_validation_errors();
         //FLAG ZERO IS NO ERROR
         var flag = 0;
@@ -462,13 +483,11 @@ function validate_step_1(_this, href, type) {
                     });
                 };
             });
-            request.validate_hours_ajax(data, _this, href);
+
+            request.validate_hours_ajax(data, _this, href,type);
         };
     } 
-
-
 // NEXT BTN WAS CLICKED
-
     else {
         clear_all_validation_errors();
         //FLAG ZERO IS NO ERROR
@@ -528,262 +547,261 @@ function validate_step_1(_this, href, type) {
             request.validate_hours_ajax(data, _this, href, type);
         };
     }
-
 }
 
-function validate_step_2(_this, href, type){
-    var error_count = 0;
-    var flag = 0;
-    //USE TO FIND THE LOCATION OF ELEMENT FOR SCROLLING
-    var this_element = null;
-    //STEPY WAS CLICKED
-    if (type == "stepy") {
+function validate_step_3(_this, href, type){
+//     var error_count = 0;
+//     var flag = 0;
+//     //USE TO FIND THE LOCATION OF ELEMENT FOR SCROLLING
+//     var this_element = null;
+//     //STEPY WAS CLICKED
+//     if (type == "stepy") {
 
 
-        clear_all_validation_errors_2();
-        $('.this-wrapper').each(function(index) {
+//         clear_all_validation_errors_2();
+//         $('.this-wrapper').each(function(index) {
 
-        //SELETED TYPE, SINGLE OR RANGE
-        var select = $(this).find('.type-select:first');
-        var selected_type = $("option:selected", select).val();
-       //VALIDATE SELECTED DATES BASED ON THE TYPE
-        if (selected_type == 'single') {
-            if ($(this).find('.overwrite-date-single:first').val() == "") {
-                $(this).find('.single-date-error:first').removeClass('hide');
-                flag = 1;
-                //USED THIS TO SCROLL TO THE FIRST ERROR
-                error_count = error_count + 1;
+//         //SELETED TYPE, SINGLE OR RANGE
+//         var select = $(this).find('.type-select:first');
+//         var selected_type = $("option:selected", select).val();
+//        //VALIDATE SELECTED DATES BASED ON THE TYPE
+//         if (selected_type == 'single') {
+//             if ($(this).find('.overwrite-date-single:first').val() == "") {
+//                 $(this).find('.single-date-error:first').removeClass('hide');
+//                 flag = 1;
+//                 //USED THIS TO SCROLL TO THE FIRST ERROR
+//                 error_count = error_count + 1;
 
-                this_element = $(this).find('.overwrite-date-single:first');
-                this_element.parents('.content-set').find('.this-error-sign').removeClass('hide');
+//                 this_element = $(this).find('.overwrite-date-single:first');
+//                 this_element.parents('.content-set').find('.this-error-sign').removeClass('hide');
 
-            };
-        } else {
-            if ($(this).find('.overwrite-date-range-start:first').val() == "") {
-                $(this).find('.start-date-error:first').removeClass('hide');
-                flag = 1;
-                //USED THIS TO SCROLL TO THE FIRST ERROR
-                error_count = error_count + 1;
-                this_element = $(this).find('.overwrite-date-range-start:first');
-                this_element.parents('.content-set').find('.this-error-sign').removeClass('hide');
-            };
-            if ($(this).find('.overwrite-date-range-end:first').val() == "") {
-                $(this).find('.end-date-error:first').removeClass('hide');
-                flag = 1;
-                //USED THIS TO SCROLL TO THE FIRST ERROR
-                error_count = error_count + 1;
+//             };
+//         } else {
+//             if ($(this).find('.overwrite-date-range-start:first').val() == "") {
+//                 $(this).find('.start-date-error:first').removeClass('hide');
+//                 flag = 1;
+//                 //USED THIS TO SCROLL TO THE FIRST ERROR
+//                 error_count = error_count + 1;
+//                 this_element = $(this).find('.overwrite-date-range-start:first');
+//                 this_element.parents('.content-set').find('.this-error-sign').removeClass('hide');
+//             };
+//             if ($(this).find('.overwrite-date-range-end:first').val() == "") {
+//                 $(this).find('.end-date-error:first').removeClass('hide');
+//                 flag = 1;
+//                 //USED THIS TO SCROLL TO THE FIRST ERROR
+//                 error_count = error_count + 1;
 
-                this_element = $(this).find('.overwrite-date-range-end:first');
-                this_element.parents('.content-set').find('.this-error-sign').removeClass('hide');
-            };
-        }
-        //VALIDATE NUMBER OF EMPLOYEES FIELD
-        var this_employees_no = $(this).find('.employees-no:first').val();
-        if (this_employees_no == '') {
-            flag = 1;
-            //USED THIS TO SCROLL TO THE FIRST ERROR
-            error_count = error_count + 1;
-            this_element = $(this).find('.employees-no:first');
-            this_element.parents('.content-set').find('.this-error-sign').removeClass('hide');
+//                 this_element = $(this).find('.overwrite-date-range-end:first');
+//                 this_element.parents('.content-set').find('.this-error-sign').removeClass('hide');
+//             };
+//         }
+//         //VALIDATE NUMBER OF EMPLOYEES FIELD
+//         var this_employees_no = $(this).find('.employees-no:first').val();
+//         if (this_employees_no == '') {
+//             flag = 1;
+//             //USED THIS TO SCROLL TO THE FIRST ERROR
+//             error_count = error_count + 1;
+//             this_element = $(this).find('.employees-no:first');
+//             this_element.parents('.content-set').find('.this-error-sign').removeClass('hide');
 
-            $(this).find('.employees-no-error').removeClass('hide');
-
-
-        } else if (!$.isNumeric( this_employees_no ) ) {
-            flag = 1;
-            //USED THIS TO SCROLL TO THE FIRST ERROR
-            error_count = error_count + 1;
-
-            this_element = $(this).find('.employees-no:first');
-            this_element.parents('.content-set').find('.this-error-sign').removeClass('hide');
-            $(this).find('.employees-no-error-numeric').removeClass('hide');
-        };
-
-            //VALIDATE OVERWRITE HOURS
-            $('.overwrite_hours_container').find('tr').each(function(index) {
-
-                    //GO THROUHT AND .. CHECK IF EVERY INPUT IS SET
-                    $(this).find('.form-selects').each(function(index) {
-
-                        var this_value = $("option:selected", this).val();
+//             $(this).find('.employees-no-error').removeClass('hide');
 
 
-                        if ($("option:selected", this).val() == '' || $("option:selected", this).val() == '0') {
-                            flag = 1;
+//         } else if (!$.isNumeric( this_employees_no ) ) {
+//             flag = 1;
+//             //USED THIS TO SCROLL TO THE FIRST ERROR
+//             error_count = error_count + 1;
 
-                            //USED THIS TO SCROLL TO THE FIRST ERROR
-                            error_count = error_count + 1;
+//             this_element = $(this).find('.employees-no:first');
+//             this_element.parents('.content-set').find('.this-error-sign').removeClass('hide');
+//             $(this).find('.employees-no-error-numeric').removeClass('hide');
+//         };
 
-                            this_element = $(this).find('.form-selects');
-                            this_element.parents('.content-set').find('.this-error-sign').removeClass('hide');
-                            //IF THE SELECT WAS NOT SELECTED ADD HAS-ERROR TO IT
-                            $(this).parents('.form-group:first').addClass('has-error')
-                            .find('.select-error').removeClass('hide');
-                        };
-                     });
-            });
+//             //VALIDATE OVERWRITE HOURS
+//             $('.overwrite_hours_container').find('tr').each(function(index) {
 
-    });
+//                     //GO THROUHT AND .. CHECK IF EVERY INPUT IS SET
+//                     $(this).find('.form-selects').each(function(index) {
 
-        // if (flag == 1) {
-        // $('html,body').animate({
-        //       scrollTop: $(this_element).offset().top - 20
-        //     }, 1000);
-        // };
-        //IF THERE WAS NO ERRORS THEN PROCEED TO NEXT STEPY
-        if (flag == 0) {
-            var overwrite_container = $('.overwrite_hours_container').length;
+//                         var this_value = $("option:selected", this).val();
 
 
-            //VALIDATE HOURS
-            var data = [];
-            // INIT ARRAYS
-            for (var i = 0; i <= overwrite_container; i++) {
-                data[i] = [];
-            };
-            var f_count = 0;
-            $('.overwrite_hours_container').find('tr').each(function(index) {
+//                         if ($("option:selected", this).val() == '' || $("option:selected", this).val() == '0') {
+//                             flag = 1;
 
-                    //GO THROUHT AND .. CHECK IF EVERY INPUT IS SET
-                    $(this).find('.form-selects').each(function(index) {
+//                             //USED THIS TO SCROLL TO THE FIRST ERROR
+//                             error_count = error_count + 1;
 
-                        var this_value = $("option:selected", this).val();
+//                             this_element = $(this).find('.form-selects');
+//                             this_element.parents('.content-set').find('.this-error-sign').removeClass('hide');
+//                             //IF THE SELECT WAS NOT SELECTED ADD HAS-ERROR TO IT
+//                             $(this).parents('.form-group:first').addClass('has-error')
+//                             .find('.select-error').removeClass('hide');
+//                         };
+//                      });
+//             });
 
-                        //THIS KEEP THE DAYS NUMBER, IN THIS CASE ONLY 1
-                        var this_category = $(this).attr('this_category');
-                        data[this_category].push(this_value);
-                        f_count = f_count + 1;
-                    });
+//     });
+
+//         // if (flag == 1) {
+//         // $('html,body').animate({
+//         //       scrollTop: $(this_element).offset().top - 20
+//         //     }, 1000);
+//         // };
+//         //IF THERE WAS NO ERRORS THEN PROCEED TO NEXT STEPY
+//         if (flag == 0) {
+//             var overwrite_container = $('.overwrite_hours_container').length;
+
+
+//             //VALIDATE HOURS
+//             var data = [];
+//             // INIT ARRAYS
+//             for (var i = 0; i <= overwrite_container; i++) {
+//                 data[i] = [];
+//             };
+//             var f_count = 0;
+//             $('.overwrite_hours_container').find('tr').each(function(index) {
+
+//                     //GO THROUHT AND .. CHECK IF EVERY INPUT IS SET
+//                     $(this).find('.form-selects').each(function(index) {
+
+//                         var this_value = $("option:selected", this).val();
+
+//                         //THIS KEEP THE DAYS NUMBER, IN THIS CASE ONLY 1
+//                         var this_category = $(this).attr('this_category');
+//                         data[this_category].push(this_value);
+//                         f_count = f_count + 1;
+//                     });
                
-            });
-            //XXX
-            request.validate_hours_ajax_2(data, null, href);
-        };
-    } 
-// NEXT BTN WAS CLICKED
-    else {
+//             });
+//             //XXX
+//             request.validate_hours_ajax_2(data, null, href);
+//         };
+//     } 
+// // NEXT BTN WAS CLICKED
+//     else {
 
-        clear_all_validation_errors_2();
-        $('.this-wrapper').each(function(index) {
+//         clear_all_validation_errors_2();
+//         $('.this-wrapper').each(function(index) {
 
-        //SELETED TYPE, SINGLE OR RANGE
-        var select = $(this).find('.type-select:first');
-        var selected_type = $("option:selected", select).val();
-       //VALIDATE SELECTED DATES BASED ON THE TYPE
-        if (selected_type == 'single') {
-            if ($(this).find('.overwrite-date-single:first').val() == "") {
-                $(this).find('.single-date-error:first').removeClass('hide');
-                flag = 1;
-                //USED THIS TO SCROLL TO THE FIRST ERROR
-                error_count = error_count + 1;
+//         //SELETED TYPE, SINGLE OR RANGE
+//         var select = $(this).find('.type-select:first');
+//         var selected_type = $("option:selected", select).val();
+//        //VALIDATE SELECTED DATES BASED ON THE TYPE
+//         if (selected_type == 'single') {
+//             if ($(this).find('.overwrite-date-single:first').val() == "") {
+//                 $(this).find('.single-date-error:first').removeClass('hide');
+//                 flag = 1;
+//                 //USED THIS TO SCROLL TO THE FIRST ERROR
+//                 error_count = error_count + 1;
 
-                this_element = $(this).find('.overwrite-date-single:first');
-                this_element.parents('.content-set').find('.this-error-sign').removeClass('hide');
+//                 this_element = $(this).find('.overwrite-date-single:first');
+//                 this_element.parents('.content-set').find('.this-error-sign').removeClass('hide');
 
-            };
-        } else {
-            if ($(this).find('.overwrite-date-range-start:first').val() == "") {
-                $(this).find('.start-date-error:first').removeClass('hide');
-                flag = 1;
-                //USED THIS TO SCROLL TO THE FIRST ERROR
-                error_count = error_count + 1;
-                this_element = $(this).find('.overwrite-date-range-start:first');
-                this_element.parents('.content-set').find('.this-error-sign').removeClass('hide');
-            };
-            if ($(this).find('.overwrite-date-range-end:first').val() == "") {
-                $(this).find('.end-date-error:first').removeClass('hide');
-                flag = 1;
-                //USED THIS TO SCROLL TO THE FIRST ERROR
-                error_count = error_count + 1;
+//             };
+//         } else {
+//             if ($(this).find('.overwrite-date-range-start:first').val() == "") {
+//                 $(this).find('.start-date-error:first').removeClass('hide');
+//                 flag = 1;
+//                 //USED THIS TO SCROLL TO THE FIRST ERROR
+//                 error_count = error_count + 1;
+//                 this_element = $(this).find('.overwrite-date-range-start:first');
+//                 this_element.parents('.content-set').find('.this-error-sign').removeClass('hide');
+//             };
+//             if ($(this).find('.overwrite-date-range-end:first').val() == "") {
+//                 $(this).find('.end-date-error:first').removeClass('hide');
+//                 flag = 1;
+//                 //USED THIS TO SCROLL TO THE FIRST ERROR
+//                 error_count = error_count + 1;
 
-                this_element = $(this).find('.overwrite-date-range-end:first');
-                this_element.parents('.content-set').find('.this-error-sign').removeClass('hide');
-            };
-        }
-        //VALIDATE NUMBER OF EMPLOYEES FIELD
-        var this_employees_no = $(this).find('.employees-no:first').val();
-        if (this_employees_no == '') {
-            flag = 1;
-            //USED THIS TO SCROLL TO THE FIRST ERROR
-            error_count = error_count + 1;
-            this_element = $(this).find('.employees-no:first');
-            this_element.parents('.content-set').find('.this-error-sign').removeClass('hide');
+//                 this_element = $(this).find('.overwrite-date-range-end:first');
+//                 this_element.parents('.content-set').find('.this-error-sign').removeClass('hide');
+//             };
+//         }
+//         //VALIDATE NUMBER OF EMPLOYEES FIELD
+//         var this_employees_no = $(this).find('.employees-no:first').val();
+//         if (this_employees_no == '') {
+//             flag = 1;
+//             //USED THIS TO SCROLL TO THE FIRST ERROR
+//             error_count = error_count + 1;
+//             this_element = $(this).find('.employees-no:first');
+//             this_element.parents('.content-set').find('.this-error-sign').removeClass('hide');
 
-            $(this).find('.employees-no-error').removeClass('hide');
-
-
-        } else if (!$.isNumeric( this_employees_no ) ) {
-            flag = 1;
-            //USED THIS TO SCROLL TO THE FIRST ERROR
-            error_count = error_count + 1;
-
-            this_element = $(this).find('.employees-no:first');
-            this_element.parents('.content-set').find('.this-error-sign').removeClass('hide');
-            $(this).find('.employees-no-error-numeric').removeClass('hide');
-        };
-
-            //VALIDATE OVERWRITE HOURS
-            $('.overwrite_hours_container').find('tr').each(function(index) {
-
-                    //GO THROUHT AND .. CHECK IF EVERY INPUT IS SET
-                    $(this).find('.form-selects').each(function(index) {
-
-                        var this_value = $("option:selected", this).val();
+//             $(this).find('.employees-no-error').removeClass('hide');
 
 
-                        if ($("option:selected", this).val() == '' || $("option:selected", this).val() == '0') {
-                            flag = 1;
+//         } else if (!$.isNumeric( this_employees_no ) ) {
+//             flag = 1;
+//             //USED THIS TO SCROLL TO THE FIRST ERROR
+//             error_count = error_count + 1;
 
-                            //USED THIS TO SCROLL TO THE FIRST ERROR
-                            error_count = error_count + 1;
+//             this_element = $(this).find('.employees-no:first');
+//             this_element.parents('.content-set').find('.this-error-sign').removeClass('hide');
+//             $(this).find('.employees-no-error-numeric').removeClass('hide');
+//         };
 
-                            this_element = $(this).find('.form-selects');
-                            this_element.parents('.content-set').find('.this-error-sign').removeClass('hide');
-                            //IF THE SELECT WAS NOT SELECTED ADD HAS-ERROR TO IT
-                            $(this).parents('.form-group:first').addClass('has-error')
-                            .find('.select-error').removeClass('hide');
-                        };
-                     });
-            });
+//             //VALIDATE OVERWRITE HOURS
+//             $('.overwrite_hours_container').find('tr').each(function(index) {
 
-    });
+//                     //GO THROUHT AND .. CHECK IF EVERY INPUT IS SET
+//                     $(this).find('.form-selects').each(function(index) {
 
-        // if (flag == 1) {
-        // $('html,body').animate({
-        //       scrollTop: $(this_element).offset().top - 20
-        //     }, 1000);
-        // };
-        //IF THERE WAS NO ERRORS THEN PROCEED TO NEXT STEPY
-        if (flag == 0) {
-            var overwrite_container = $('.overwrite_hours_container').length;
+//                         var this_value = $("option:selected", this).val();
 
 
-            //VALIDATE HOURS
-            var data = [];
-            // INIT ARRAYS
-            for (var i = 0; i <= overwrite_container; i++) {
-                data[i] = [];
-            };
-            var f_count = 0;
-            $('.overwrite_hours_container').find('tr').each(function(index) {
+//                         if ($("option:selected", this).val() == '' || $("option:selected", this).val() == '0') {
+//                             flag = 1;
 
-                    //GO THROUHT AND .. CHECK IF EVERY INPUT IS SET
-                    $(this).find('.form-selects').each(function(index) {
+//                             //USED THIS TO SCROLL TO THE FIRST ERROR
+//                             error_count = error_count + 1;
 
-                        var this_value = $("option:selected", this).val();
+//                             this_element = $(this).find('.form-selects');
+//                             this_element.parents('.content-set').find('.this-error-sign').removeClass('hide');
+//                             //IF THE SELECT WAS NOT SELECTED ADD HAS-ERROR TO IT
+//                             $(this).parents('.form-group:first').addClass('has-error')
+//                             .find('.select-error').removeClass('hide');
+//                         };
+//                      });
+//             });
 
-                        //THIS KEEP THE DAYS NUMBER, IN THIS CASE ONLY 1
-                        var this_category = $(this).attr('this_category');
-                        data[this_category].push(this_value);
-                        f_count = f_count + 1;
-                    });
+//     });
+
+//         // if (flag == 1) {
+//         // $('html,body').animate({
+//         //       scrollTop: $(this_element).offset().top - 20
+//         //     }, 1000);
+//         // };
+//         //IF THERE WAS NO ERRORS THEN PROCEED TO NEXT STEPY
+//         if (flag == 0) {
+//             var overwrite_container = $('.overwrite_hours_container').length;
+
+
+//             //VALIDATE HOURS
+//             var data = [];
+//             // INIT ARRAYS
+//             for (var i = 0; i <= overwrite_container; i++) {
+//                 data[i] = [];
+//             };
+//             var f_count = 0;
+//             $('.overwrite_hours_container').find('tr').each(function(index) {
+
+//                     //GO THROUHT AND .. CHECK IF EVERY INPUT IS SET
+//                     $(this).find('.form-selects').each(function(index) {
+
+//                         var this_value = $("option:selected", this).val();
+
+//                         //THIS KEEP THE DAYS NUMBER, IN THIS CASE ONLY 1
+//                         var this_category = $(this).attr('this_category');
+//                         data[this_category].push(this_value);
+//                         f_count = f_count + 1;
+//                     });
                
-            });
-            //XXX
-            request.validate_hours_ajax_2(data, null, href);
-        };
+//             });
+//             //XXX
+//             request.validate_hours_ajax_2(data, null, href);
+//         };
 
-    }
+//     }
 
 }
 

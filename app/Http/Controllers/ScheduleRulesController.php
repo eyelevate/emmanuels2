@@ -71,6 +71,7 @@ class ScheduleRulesController extends Controller {
 
 	public function getAdd()
 	{
+		$schedule_select = Schedule::PrepareForSelect();
 		
 		//SCHEDULE LIMITS
 		$schedule_limits = ScheduleLimit::get();
@@ -110,7 +111,8 @@ class ScheduleRulesController extends Controller {
 		}
 		
 		return view('schedule_rules.add')
-		->with('layout',$this->layout);
+		->with('layout',$this->layout)
+		->with('schedule_select',$schedule_select);
 	}
 	public function postAdd()
 	{

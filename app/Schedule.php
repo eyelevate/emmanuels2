@@ -87,6 +87,19 @@ class Schedule extends Model  {
 			'2' => 'Deleted'
 			);
 	}
+
+	 public static function PrepareForSelect() {
+        $data = Schedule::get();
+        $schedules = array(''=>'Select An Schedule');
+        if(isset($data)) {
+            foreach ($data as $key => $value) {
+                $id = $value['id'];
+                $title = $value['title'];
+                $schedules[$id] = $title; 
+            }
+        }
+        return $schedules;
+    }
 	// public static function prepareSchedules($data) {
 	// 	if(isset($data)) {
 	// 		foreach ($data as $key => $value) {
