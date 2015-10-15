@@ -11,6 +11,9 @@ pages = {
                 'X-CSRF-Token': $('meta[name=csrf-token]').attr('content')
             }
         });
+        $(function () {
+          $('[data-toggle="tooltip"]').tooltip()
+        });
         $("#overwrite-date-single-0").datepicker({
             dateFormat: 'DD, d MM, yy',
             minDate: 0,
@@ -61,6 +64,40 @@ pages = {
             //COUNT NUMBER OF SETS
             var count = $('.overwrite-wrapper').length;
             request.add_overwrite(count);
+        });
+
+        $(document).on('click', '.add-area', function() {
+            $('#area-dup').addClass('hide');
+            var this_text = $(this).parents('.input-group').find('.area-text').val();
+            $(this).parents('.input-group').find('.area-text').val('');
+            var dup = 0;
+            var obj = $('.label-area');
+            var count = $('.label-area').length;
+
+            if (!$.isBlank(this_text)) {
+
+                $('.label-area').each(function( index ) {
+                  if ($( this ).text() == this_text) {
+                    dup = 1;
+                  };
+                });
+
+                if (dup == 0) {
+                    var label_html = '<span class="label label-success label-area '+this_text+'" > <span class="this-area-t">'+this_text+'</span> <i class="glyphicon glyphicon-trash delete-area"></i></span>';
+                    var input_html = '<input class="'+this_text+'" type="hidden" name="areas['+count+this_text+']" value="'+this_text+'" >';
+                    $('#area-group-wrapper').append(label_html);
+                    $('#area-group-wrapper').append(input_html);
+
+                } else {
+                    $('#area-dup').removeClass('hide');
+                }
+            }
+
+        });
+
+        $(document).on('click', '.delete-area', function() {
+            var this_text = $(this).parents('.label-area').find('.this-area-t').text();
+            $('.'+this_text).remove();
         });
 
         $(document).on('click', '.remove-overwrite', function() {
@@ -449,7 +486,29 @@ function validate_step_2(_this, href, type){
                                 last_this = $(this);
                             };
                     };
+
+                    if ($(this).hasClass('drivers-text')) {
+                        var this_driver_text = $(this).val();
+
+                        if ($.isBlank(this_driver_text)) {
+                            flag = 1;
+                            //TO KEEP TRACK OF THE FIRST ERROR
+                            error_count = error_count + 1;
+                            //IF THE SELECT WAS NOT SELECTED ADD HAS-ERROR TO IT
+                            $(this).parents('.form-group:first').addClass('has-error')
+                                .find('.select-error').removeClass('hide');
+                                //SAVE THE FIRST ERROR (this), SO LATER WE CAN SCROLL TO IT
+                                if (error_count == 1 ) {
+                                    last_this = $(this);
+                                };
+                        }
+
+                    };
+
                 });
+
+
+
             };
         });
         if (flag == 1) {
@@ -473,14 +532,19 @@ function validate_step_2(_this, href, type){
                 //IGNORE VALIDATION IF IT WAS CLOSED
                 if (selected_radio != "closed") {
 
-                    //GO THROUHT AND .. CHECK IF EVERY INPUT IS SET
-                    $(this).find('.form-selects').each(function(index) {
 
-                        var this_value = $("option:selected", this).val();
-                        var this_category = $(this).attr('this_category');
-                        data[this_category].push(this_value);
-                        f_count = f_count + 1;
-                    });
+                        //GO THROUHT AND .. CHECK IF EVERY INPUT IS SET
+                        $(this).find('.form-selects').each(function(index) {
+                            if (!$(this).hasClass('drivers-text')) {
+                                var this_value = $("option:selected", this).val();
+                                var this_category = $(this).attr('this_category');
+                                data[this_category].push(this_value);
+                                f_count = f_count + 1;
+                            } 
+                        }); 
+
+
+
                 };
             });
 
@@ -898,3 +962,8 @@ function reindex_blackouts(count) {
 function remove_calendar_error(_this) {
     _this.parents('.box:first').find('.error:first').addClass('hide');
 }
+(function($){
+  $.isBlank = function(obj){
+    return(!obj || $.trim(obj) === "");
+  };
+})(jQuery);

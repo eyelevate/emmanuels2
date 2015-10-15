@@ -1,5 +1,6 @@
 @extends($layout)
 @section('stylesheets')
+  {!! Html::style('/assets/css/schedule_rules/add.css') !!}
 @stop
 @section('scripts')
 <!-- DATEPICKER -->
@@ -72,33 +73,26 @@ for ($i=0; $i <= 60; $i++) {
 					<span class='help-block'>{{ $message }}</span>
 					@endforeach
 				</div>
-				<div class="form-group {{ $errors->has('drivers') ? 'has-error' : false }}">
-					<label class="control-label" for="drivers">Drivers</label>
-					{!! Form::text('drivers', null, array('class'=>'form-control', 'placeholder'=>'Number of Available Drivers')) !!}
-					@foreach($errors->get('drivers') as $message)
-					<span class='help-block'>{{ $message }}</span>
-					@endforeach
-				</div>
-				<label class="control-label" for="drivers">Schedule Time</label>
-				<div class="list-group-item" style="height:107px;border: none;">
-					<div class="col-xs-4">
+
+				<label class="control-label" for="drivers">Schedule Time  
+						<i type="button" class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
+						 data-placement="top" title="The time that it takes to complete a single schedule"></i>
+
+				</label>
+				<div class="list-group-item" style="border: none;">
+					<div class="col-xs-6 s_g_container">
 						<div class="form-group ">
-							{!! Form::select('schedule_hours[open_hour]', $overwrite_hours, '', array('class'=>'form-control form-selects overwrite-select-hour-open','this_category'=>'0','not_empty'=>'true','placeholder'=>'Select Hour')); !!}
+							{!! Form::select('schedule_time[hour]', $overwrite_hours, '', array('class'=>'form-control form-selects overwrite-select-hour-open','this_category'=>'0','not_empty'=>'true','placeholder'=>'Select Hour')); !!}
 							<div class="select-error hide" style="color:#a94442">The hour field is required</div>
 						</div>
 					</div>
-					<div class="col-xs-4">
+					<div class="col-xs-6 s_g_container last_s_g">
 						<div class="form-group ">
-							{!! Form::select('schedule_hours[open_minute]', $overwrite_minutes, '', array('class'=>'form-control form-selects overwrite-select-minute-open','this_category'=>'0','not_empty'=>'true','placeholder'=>'Select Minute')); !!}
+							{!! Form::select('schedule_time[minute]', $overwrite_minutes, '', array('class'=>'form-control form-selects overwrite-select-minute-open','this_category'=>'0','not_empty'=>'true','placeholder'=>'Select Minute')); !!}
 							<div class="select-error hide" style="color:#a94442">The minute field is required</div>
 						</div>
 					</div>
-					<div class="col-xs-4">
-						<div class="form-group ">
-							{!! Form::select('schedule_hours[open_ampm]', $overwrite_ampm, '', array('class'=>'form-control form-selects overwrite-select-ampm-open','this_category'=>'0','not_empty'=>'true','placeholder'=>'Select Minute')); !!}
-							<div class="select-error hide" style="color:#a94442">This field is required</div>
-						</div>	
-					</div>
+
 				</div>
 
 				
@@ -114,7 +108,7 @@ for ($i=0; $i <= 60; $i++) {
 
 				<!-- FIRST SECTION -->
 				<div class="first_section" id="step_1_wrapper">
-					{!! View::make('partials.companies.delivery_hours') !!}
+					{!! View::make('partials.schedules.weekly_schedules') !!}
 				</div>
 				<!-- FIRST SECTION -->
 				
@@ -128,21 +122,48 @@ for ($i=0; $i <= 60; $i++) {
 
 		<!-- DATE STEP -->
 		<div id="blackout_date" class="steps panel panel-success hide">
-			<div class="panel-heading" style="font-size:17px;"><strong>Blackout Dates</strong></div>
+			<div class="panel-heading" style="font-size:17px;"><strong>Blackout Dates and Areas</strong></div>
 			<div class="panel-body">
 				<div class="third_section">
+
+					
 					<div class="blackout wrapper">
+						<label class="control-label" for="description">Areas</label>
+
+						<i type="button" class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
+						 data-placement="top" title="Blackout dates are dates that services are not available. For example a major holiday."></i>
+						
+						<div class="input-group">
+						  <span class="input-group-addon">Enter a zipcode</span>
+						  <input type="text" class="form-control area-text">
+						  <span class="input-group-addon add-area">Add</span>
+						</div>
+						<div class="alert alert-danger hide" id="area-dup" role="alert">Duplicate data</div>
+						<div class="panel panel-default">
+						  <div class="panel-body" id="area-group-wrapper">
+						    
+						  </div>
+						</div>
+
+					</div>
+
+					<hr>
+					<div class="blackout wrapper">
+						<label class="control-label" for="description">Blackout Dates</label>
+
+						<i type="button" class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
+						 data-placement="top" title="Blackout dates are dates that services are not available. For example a major holiday."></i>
+
 						<div class="input-group input-group-md">
 							<span class="input-group-addon" >Pick a Date</span>
 							<input type="text"  id="blackout-input" class="form-control"  aria-describedby="sizing-addon1">
 						</div>
 
-						<div id="blackout-group-wrapper">
-
-
-
+						<div class="panel panel-default">
+						  <div class="panel-body" id="blackout-group-wrapper">
+						    
+						  </div>
 						</div>
-
 					</div>
 				</div>
 			</div>

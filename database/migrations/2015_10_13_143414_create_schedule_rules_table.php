@@ -18,7 +18,7 @@ class CreateScheduleRulesTable extends Migration
             $table->string('title')->nullable();
             $table->text('description')->nullable();
             $table->tinyInteger('drivers')->nullable();
-            $table->integer('schedule_time')->nullable();
+            $table->text('schedule_time')->nullable();
             $table->text('weekly_schedule')->nullable();
             $table->text('blackout_dates')->nullable();
             $table->text('zipcodes')->nullable();

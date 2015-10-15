@@ -1,0 +1,31 @@
+td.list-group {
+    text-align: left !important;
+    padding: 15px !important;
+}
+.list-group-item {
+    border: none;
+    padding:0;
+}
+.w_s_container{
+	padding-left: 0 !important;
+	padding-right: 2px !important;
+
+}
+.s_g_container{
+	padding-left: 0 !important;
+	padding-right: 2px !important;	
+}
+
+.last_s_g{
+	padding-right: 0 !important;	
+}
+.label-area {
+    display: inline-flex !important;
+    margin: 5px;
+    font-size: 15px;
+    }
+
+.delete-area{
+        margin-left: 6px;
+    	font-size: 14px;
+}

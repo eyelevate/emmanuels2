@@ -30,6 +30,9 @@ use App\Schedule;
 use App\ScheduleLimit;
 use App\ScheduleOverwrite;
 use App\Delivery;
+use App\ScheduleRule;
+
+
 
 class ScheduleRulesController extends Controller {
 	protected $layout = 'layouts.admin';
@@ -65,67 +68,86 @@ class ScheduleRulesController extends Controller {
 
 	public function getIndex()
 	{
+		$schedules = ScheduleRule::prepareSchedules(ScheduleRule::get());
+
+
 		return view('schedule_rules.index')
-			->with('layout',$this->layout);
+			->with('layout',$this->layout)
+			->with('schedules',$schedules);
 	}
 
 	public function getAdd()
 	{
 		$schedule_select = Schedule::PrepareForSelect();
-		
-		//SCHEDULE LIMITS
-		$schedule_limits = ScheduleLimit::get();
-		$limits_array = null;
-		if (isset($schedule_limits)) {
-			foreach ($schedule_limits as $lkey => $lvalue) {
-			
-			$limits_array[$lkey]['open'] = $lvalue['state']==1?'open':'close';
-
-			$open_date =  $lvalue['schedule_hours_open'];
-			$close_date =  $lvalue['schedule_hours_close'];
-
-			$limits_array[$lkey]['open_hour'] = date('H',strtotime($open_date));
-			$limits_array[$lkey]['open_minute'] = date('i',strtotime($open_date));
-			$limits_array[$lkey]['open_ampm'] = date('a',strtotime($open_date));
-			$limits_array[$lkey]['close_hour'] = date('H',strtotime($close_date));
-			$limits_array[$lkey]['close_minute'] = date('i',strtotime($close_date));
-			$limits_array[$lkey]['close_ampm'] = date('a',strtotime($close_date));
-			}
-		}
-
-		//SCHEDULE OVERWRITE
-		$schedule_overwrites = ScheduleOverwrite::get();
-		$overwrite_array = null;
-		if (isset($schedule_overwrites)) {
-			foreach ($schedule_overwrites as $okey => $ovalue) {
-				// TYPE 1 = SINGLE, TYPE 2 = RANGE
-				if ($ovalue['type'] == 1) {//SINGLE
-					$date =  $ovalue['overwrite_date'];
-					$open =  $ovalue['overwrite_date'];
-					$close =  $ovalue['overwrite_date'];
-					$overwrite_array[$okey]['type'] = $ovalue['type'] == 1?'single':'range';
-				} else{//RANGE
-					$overwrite_array[$okey]['type'] = $ovalue['type'] == 1?'single':'range';
-				}
-			}
-		}
-		
 		return view('schedule_rules.add')
 		->with('layout',$this->layout)
 		->with('schedule_select',$schedule_select);
 	}
 	public function postAdd()
 	{
-		
+			$validator = Validator::make(Input::all(), ScheduleRule::$rules_add);
+			if ($validator->passes()) {
+				
+				$rules = new ScheduleRule;
+				$rules->schedule_id = Input::get('schedules-select');
+				$rules->title = Input::get('title');
+				$rules->description = Input::get('description');
+				$rules->schedule_time = json_encode(Input::get('schedule_time'));
+				$rules->weekly_schedule = json_encode(Input::get('hours'));
+				$rules->blackout_dates = json_encode(Input::get('blackoutdates'));
+				$rules->zipcodes = json_encode(Input::get('areas'));
+				$rules->status = 1;
+
+				if ($rules->save()) {
+					return Redirect::route('rules_index');
+				}
+
+			} else {
+		// validation has failed, display error messages    
+			return Redirect::back()
+			->with('message', 'The following errors occurred')
+			->with('alert_type','alert-danger')
+			->withErrors($validator)
+			->withInput();	    	
+		}	
 	}
 
 	public function getEdit($id = null)
 	{
-		$this->layout->content = View::make('schedule_rules.edit');
+			$schedule_rules = ScheduleRule::PrepareForEdit(ScheduleRule::find($id));
+			$schedule_select = Schedule::PrepareForSelect();
+			return view('schedule_rules.edit')
+			->with('layout',$this->layout)
+			->with('schedule_rules',$schedule_rules)
+			->with('schedule_select',$schedule_select);
 	}
 	public function postEdit()
 	{
-		
+		$validator = Validator::make(Input::all(), ScheduleRule::$rules_add);
+			if ($validator->passes()) {
+				$this_id = Input::get('this_id');
+				$rules = ScheduleRule::find($this_id);
+				$rules->schedule_id = Input::get('schedules-select');
+				$rules->title = Input::get('title');
+				$rules->description = Input::get('description');
+				$rules->schedule_time = json_encode(Input::get('schedule_time'));
+				$rules->weekly_schedule = json_encode(Input::get('hours'));
+				$rules->blackout_dates = json_encode(Input::get('blackoutdates'));
+				$rules->zipcodes = json_encode(Input::get('areas'));
+				// $rules->status = 1;
+
+				if ($rules->save()) {
+					return Redirect::route('rules_index');
+				}
+
+			} else {
+		// validation has failed, display error messages    
+			return Redirect::back()
+			->with('message', 'The following errors occurred')
+			->with('alert_type','alert-danger')
+			->withErrors($validator)
+			->withInput();	    	
+		}	
 	}
 
 	public function postDelete()
