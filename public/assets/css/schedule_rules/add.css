@@ -29,3 +29,10 @@ td.list-group {
         margin-left: 6px;
     	font-size: 14px;
 }
+.weekly-days-td{
+    text-align: left !important;
+}
+.new-zip{
+    background-color: #337ab7 !important;
+    text-decoration: underline !important;
+}

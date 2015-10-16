@@ -76,18 +76,18 @@ class ScheduleRulesController extends Controller {
 			->with('schedules',$schedules);
 	}
 
-	public function getAdd()
+	public function getAdd($id = null)
 	{
 		$schedule_select = Schedule::PrepareForSelect();
 		return view('schedule_rules.add')
 		->with('layout',$this->layout)
-		->with('schedule_select',$schedule_select);
+		->with('schedule_select',$schedule_select)
+		->with('s_id',$id);
 	}
 	public function postAdd()
 	{
 			$validator = Validator::make(Input::all(), ScheduleRule::$rules_add);
 			if ($validator->passes()) {
-				
 				$rules = new ScheduleRule;
 				$rules->schedule_id = Input::get('schedules-select');
 				$rules->title = Input::get('title');
@@ -125,6 +125,7 @@ class ScheduleRulesController extends Controller {
 	{
 		$validator = Validator::make(Input::all(), ScheduleRule::$rules_add);
 			if ($validator->passes()) {
+
 				$this_id = Input::get('this_id');
 				$rules = ScheduleRule::find($this_id);
 				$rules->schedule_id = Input::get('schedules-select');
@@ -134,7 +135,7 @@ class ScheduleRulesController extends Controller {
 				$rules->weekly_schedule = json_encode(Input::get('hours'));
 				$rules->blackout_dates = json_encode(Input::get('blackoutdates'));
 				$rules->zipcodes = json_encode(Input::get('areas'));
-				// $rules->status = 1;
+				//  $rules->status = 1;
 
 				if ($rules->save()) {
 					return Redirect::route('rules_index');

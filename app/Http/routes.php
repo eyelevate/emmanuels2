@@ -69,8 +69,6 @@ Route::group(['middleware' => 'beforeFilter'], function () {
 
 		Route::group(['prefix' => 'admins'], function () {
 			$prefix = 'admins';	
-
-
 			Route::get('companies',  ['as' => 'companies_index','uses' => 'CompaniesController@getIndex', 'middleware' => ['acl:'.$prefix.'/companies']]);
 			Route::get('companies/add',  ['as' => 'companies_add','uses' => 'CompaniesController@getAdd', 'middleware' => ['acl:'.$prefix.'/companies/add']]);
 			Route::post('companies/add',  ['uses' => 'CompaniesController@postAdd', 'middleware' => ['acl:'.$prefix.'/companies/add']]);
@@ -169,7 +167,7 @@ Route::group(['middleware' => 'beforeFilter'], function () {
 
 			//SCHEDULE-RULES
 			Route::get('schedule-rules',  ['as' => 'rules_index','uses' => 'ScheduleRulesController@getIndex', 'middleware' => ['acl:'.$prefix.'/schedule-rules']]);
-			Route::get('schedule-rules/add',  ['as' => 'rules_add','uses' => 'ScheduleRulesController@getAdd', 'middleware' => ['acl:'.$prefix.'/schedule-rules/add']]);
+			Route::get('schedule-rules/add/{id}',  ['as' => 'rules_add','uses' => 'ScheduleRulesController@getAdd', 'middleware' => ['acl:'.$prefix.'/schedule-rules/add'], function ($id) {}]);
 			Route::post('schedule-rules/add',  ['uses' => 'ScheduleRulesController@postAdd', 'middleware' => ['acl:'.$prefix.'/schedule-rules/add']]);
 			Route::get('schedule-rules/edit/{id}',  ['as' => 'scheduleRules_edit','uses' => 'ScheduleRulesController@getEdit', 'middleware' => ['acl:'.$prefix.'/schedule-rules/edit'], function ($id) {}]);
 			Route::post('schedule-rules/edit',  ['uses' => 'ScheduleRulesController@postEdit', 'middleware' => ['acl:'.$prefix.'/schedule-rules/edit']]);

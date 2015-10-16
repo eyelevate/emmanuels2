@@ -44,7 +44,8 @@ for ($i=0; $i <= 60; $i++) {
 		<ul id="deliveryStepy" class="nav nav-pills nav-stacked">
 			<li id="s-stepy" class="active" role="presentation"><a href="#setup"><span class="badge">1</span> Schedules</a></li>
 			<li id="schedule-stepy" class="" role="presentation"><a href="#type"><span class="badge">2</span> Weekly Schedule</a></li>
-			<li id="blackout-stepy" class="" role="presentation"><a href="#blackout_date"><span class="badge">3</span> Blackout Dates and Areas</a></li>
+			<li id="zipcode-stepy" class="" role="presentation"><a href="#zipcodes"><span class="badge">3</span> Zipcodes</a></li>
+			<li id="blackout-stepy" class="" role="presentation"><a href="#blackout_date"><span class="badge">4</span> Blackout Dates</a></li>
 		</ul>
 	</div>
 	<div class="col-md-9 pull-right">
@@ -52,6 +53,16 @@ for ($i=0; $i <= 60; $i++) {
 			<div class="panel-heading" style="font-size:17px;"><strong>Schedules</strong></div>
 			<div class="panel-body">
 
+				
+				@if($s_id != 0)
+				<div class="form-group {{ $errors->has('schedules-select') ? 'has-error' : false }}">
+					<label class="control-label" for="schedules-select">Schedules</label>
+					{!! Form::select('schedules-select', $schedule_select, $s_id ,array('id'=>'schedules-select','class'=>'form-control')) !!}
+					@foreach($errors->get('schedules-select') as $message)
+					<span class='help-block'>{{ $message }}</span>
+					@endforeach
+				</div>	
+				@else 
 				<div class="form-group {{ $errors->has('schedules-select') ? 'has-error' : false }}">
 					<label class="control-label" for="schedules-select">Schedules</label>
 					{!! Form::select('schedules-select', $schedule_select, null ,array('id'=>'schedules-select','class'=>'form-control')) !!}
@@ -59,6 +70,10 @@ for ($i=0; $i <= 60; $i++) {
 					<span class='help-block'>{{ $message }}</span>
 					@endforeach
 				</div>	
+				@endif
+
+
+
 				<div class="form-group {{ $errors->has('title') ? 'has-error' : false }}">
 					<label class="control-label" for="title">Title</label>
 					{!! Form::text('title', null, array('class'=>'form-control', 'placeholder'=>'Title')) !!}
@@ -76,7 +91,7 @@ for ($i=0; $i <= 60; $i++) {
 
 				<label class="control-label" for="drivers">Schedule Time  
 						<i type="button" class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
-						 data-placement="top" title="The time that it takes to complete a single schedule"></i>
+						 data-placement="top" title="Average completion time"></i>
 
 				</label>
 				<div class="list-group-item" style="border: none;">
@@ -121,14 +136,14 @@ for ($i=0; $i <= 60; $i++) {
 
 
 		<!-- DATE STEP -->
-		<div id="blackout_date" class="steps panel panel-success hide">
-			<div class="panel-heading" style="font-size:17px;"><strong>Blackout Dates and Areas</strong></div>
+		<div id="zipcodes" class="steps panel panel-success hide">
+			<div class="panel-heading" style="font-size:17px;"><strong>Zipcodes</strong></div>
 			<div class="panel-body">
 				<div class="third_section">
 
 					
 					<div class="blackout wrapper">
-						<label class="control-label" for="description">Areas</label>
+						<label class="control-label" for="description">Zipcodes</label>
 
 						<i type="button" class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
 						 data-placement="top" title="Blackout dates are dates that services are not available. For example a major holiday."></i>
@@ -146,8 +161,22 @@ for ($i=0; $i <= 60; $i++) {
 						</div>
 
 					</div>
+				</div>
+			</div>
+			<div class="panel-footer clearfix">
+				<button type="button" class="previous btn btn-default" step="1"><i class="glyphicon glyphicon-chevron-left"></i> Previous</button>
+				<button type="button" id="first-next" step="3" class="btn btn-primary pull-right next" >Next <i class="glyphicon glyphicon-chevron-right"></i></button>
+			</div>
 
-					<hr>
+		</div>
+
+
+
+		<!-- DATE STEP -->
+		<div id="blackout_date" class="steps panel panel-success hide">
+			<div class="panel-heading" style="font-size:17px;"><strong>Blackout Dates and Areas</strong></div>
+			<div class="panel-body">
+				<div class="third_section">
 					<div class="blackout wrapper">
 						<label class="control-label" for="description">Blackout Dates</label>
 

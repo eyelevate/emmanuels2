@@ -66,6 +66,55 @@ pages = {
             request.add_overwrite(count);
         });
 
+
+        $(document).on('click', '.add-break-btn', function() {
+            $('.incomplete-break').addClass('hide');
+            $('.form-group-error-not').removeClass('has-error');
+
+            var empty_error = 0;
+            var b_count = 1;
+
+            $(this).parents('.breaks-container').find('.form-group').removeClass('has-error');
+
+            $(this).parents('.breaks-container').find('.form-break').each(function( index ) {
+                if ($("option:selected", this).val() == '' || $("option:selected", this).val() == '0') {
+                        $(this).parents('.form-group:first').addClass('has-error');
+                        $(this).parents('.breaks-container:first').find('.incomplete-break:first').removeClass('hide');
+                        empty_error = 1;
+                };
+            });
+
+            if (empty_error == 0) {
+                var this_parent = $(this).parents('.breaks-container:first');
+
+                var from_hour = this_parent.find('.from-hour').val();
+                var from_minute = this_parent.find('.from-minute').val();
+                var from_ampm = this_parent.find('.from-ampm').val();
+                var to_hour = this_parent.find('.to-hour').val();
+                var to_minute = this_parent.find('.to-minute').val();
+                var to_ampm = this_parent.find('.to-ampm').val();
+
+
+                $(this).parents('.breaks-container').find('.br-alert').each(function( index ) {
+                    $(this).find('.b-badge').text(b_count);
+                    b_count = b_count + 1;
+                });
+
+                var this_day = $(this).parents('.breaks-container:first').attr('this-day');
+                var alert_html = '<div class="alert alert-info alert-dismissible br-alert" style="margin-bottom: 1px;" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> <span class="badge b-badge">'+b_count+'</span>&nbsp&nbspFrom&nbsp&nbsp'+from_hour+':'+from_minute+''+from_ampm+'&nbsp&nbspTo&nbsp&nbsp'+to_hour+':'+to_minute+''+to_ampm+'</div>';
+                var break_input = '<input name="hours['+this_day+'][breaks]['+b_count+'][from_hour]" type="hidden" value="'+from_hour+'">';
+                    break_input += '<input name="hours['+this_day+'][breaks]['+b_count+'][from_minute]" type="hidden" value="'+from_minute+'">';
+                    break_input += '<input name="hours['+this_day+'][breaks]['+b_count+'][from_ampm]" type="hidden" value="'+from_ampm+'">';
+                    break_input += '<input name="hours['+this_day+'][breaks]['+b_count+'][to_hour]" type="hidden" value="'+to_hour+'">';
+                    break_input += '<input name="hours['+this_day+'][breaks]['+b_count+'][to_minute]" type="hidden" value="'+to_minute+'">';
+                    break_input += '<input name="hours['+this_day+'][breaks]['+b_count+'][to_ampm]" type="hidden" value="'+to_ampm+'">';
+
+                $(this).parents('.breaks-container').find('.breaks-div').append(alert_html);
+                $(this).parents('.breaks-container').find('.breaks-div').append(break_input);
+            };
+            
+        });
+
         $(document).on('click', '.add-area', function() {
             $('#area-dup').addClass('hide');
             var this_text = $(this).parents('.input-group').find('.area-text').val();
@@ -74,16 +123,18 @@ pages = {
             var obj = $('.label-area');
             var count = $('.label-area').length;
 
-            if (!$.isBlank(this_text)) {
+            $('.label-area').removeClass('new-zip');
 
-                $('.label-area').each(function( index ) {
-                  if ($( this ).text() == this_text) {
+            if (!$.isBlank(this_text)) {
+                $('.this-area-t').each(function( index ) {
+                  if ($(this).text() == this_text) {
                     dup = 1;
                   };
                 });
 
                 if (dup == 0) {
-                    var label_html = '<span class="label label-success label-area '+this_text+'" > <span class="this-area-t">'+this_text+'</span> <i class="glyphicon glyphicon-trash delete-area"></i></span>';
+
+                    var label_html = '<span class="label label-success label-area new-zip '+this_text+'" > <span class="this-area-t">'+this_text+'</span> <i class="glyphicon glyphicon-trash delete-area"></i></span>';
                     var input_html = '<input class="'+this_text+'" type="hidden" name="areas['+count+this_text+']" value="'+this_text+'" >';
                     $('#area-group-wrapper').append(label_html);
                     $('#area-group-wrapper').append(input_html);
@@ -217,16 +268,13 @@ pages = {
             var _this = $(this);
             var this_step = parseInt($(this).attr('step'));
             switch(this_step){
-                case 1:
-
-                    validate_step_1(_this, null, "btn");
-                break;
                 case 2:
                     validate_step_2(_this, null, "btn");
                 break;
-                case 3:
-                    validate_step_3(_this, null, "btn");
+                default:
+                    validate_step_1(_this, null, "btn");
                 break;
+
             }
             
         });
@@ -509,13 +557,13 @@ function validate_step_2(_this, href, type){
 
 
 
-            };
+            }
         });
         if (flag == 1) {
-        //SCROLL TO THE ERROR
-        $('html,body').animate({
-          scrollTop: $(last_this).offset().top - 20
-        }, 1000);
+            //SCROLL TO THE ERROR
+            $('html,body').animate({
+              scrollTop: $(last_this).offset().top - 20
+            }, 1000);
         };
         //IF THERE WAS NOW ERRORS THEN PROCEED TO NEXT STEPY
         if (flag == 0) {
@@ -531,8 +579,6 @@ function validate_step_2(_this, href, type){
                 var selected_radio = $(" input:radio:checked").val();
                 //IGNORE VALIDATION IF IT WAS CLOSED
                 if (selected_radio != "closed") {
-
-
                         //GO THROUHT AND .. CHECK IF EVERY INPUT IS SET
                         $(this).find('.form-selects').each(function(index) {
                             if (!$(this).hasClass('drivers-text')) {
@@ -542,8 +588,6 @@ function validate_step_2(_this, href, type){
                                 f_count = f_count + 1;
                             } 
                         }); 
-
-
 
                 };
             });
@@ -574,6 +618,24 @@ function validate_step_2(_this, href, type){
                                 last_this = $(this);
                             };
                     };
+
+                    if ($(this).hasClass('drivers-text')) {
+                        var this_driver_text = $(this).val();
+
+                        if ($.isBlank(this_driver_text)) {
+                            flag = 1;
+                            //TO KEEP TRACK OF THE FIRST ERROR
+                            error_count = error_count + 1;
+                            //IF THE SELECT WAS NOT SELECTED ADD HAS-ERROR TO IT
+                            $(this).parents('.form-group:first').addClass('has-error')
+                                .find('.select-error').removeClass('hide');
+                                //SAVE THE FIRST ERROR (this), SO LATER WE CAN SCROLL TO IT
+                                if (error_count == 1 ) {
+                                    last_this = $(this);
+                                };
+                        }
+
+                    };
                 });
             };
         });
@@ -600,11 +662,12 @@ function validate_step_2(_this, href, type){
 
                     //GO THROUHT AND .. CHECK IF EVERY INPUT IS SET
                     $(this).find('.form-selects').each(function(index) {
-
-                        var this_value = $("option:selected", this).val();
-                        var this_category = $(this).attr('this_category');
-                        data[this_category].push(this_value);
-                        f_count = f_count + 1;
+                        if (!$(this).hasClass('drivers-text')) {
+                          var this_value = $("option:selected", this).val();
+                          var this_category = $(this).attr('this_category');
+                          data[this_category].push(this_value);
+                          f_count = f_count + 1;
+                        }   
                     });
                 };
             });
@@ -877,6 +940,8 @@ function clear_all_validation_errors() {
     });
     $('.select-error').addClass('hide');
     $('.time-error').addClass('hide');
+
+    $('.form-group').removeClass('has-error');
 
 }
 

@@ -77,7 +77,7 @@ for ($i=0; $i <= 60; $i++) {
 
 				<label class="control-label" for="drivers">Schedule Time  
 						<i type="button" class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
-						 data-placement="top" title="The time that it takes to complete a single schedule"></i>
+						 data-placement="top" title="Average completion time"></i>
 
 				</label>
 				<div class="list-group-item" style="border: none;">

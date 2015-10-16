@@ -58,7 +58,10 @@ class PermissionsController extends Controller
                     foreach ($permission_roles as $prkey => $prvalue) {
                         $idx++;
                         $roles = Role::find($prvalue->role_id);
-                        $perm[$key][$idx] = $roles->role_title;
+                        if (isset($roles->role_title)) {
+                            $perm[$key][$idx] = $roles->role_title;
+                        }
+                        
                     }
                 }
             }

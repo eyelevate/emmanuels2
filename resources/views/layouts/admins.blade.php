@@ -75,13 +75,6 @@
 
                         <div class="menu_section">
                             <ul class="nav side-menu">
-
-
-
-
-
-
-
                                 <li class="li-menus"><a class="first-li-a"><i class="fa fa-edit"></i> Access Control List <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu" style="display: none">
                                         <li><a href="{!! route('roles_index') !!}">Roles</a>
@@ -139,7 +132,7 @@
                                         <li>Rules</li>
                                             <li class="navLi"><a href="{!! route('rules_index') !!}">Index</a>
                                             </li>
-                                            <li class="navLi"><a href="{!! route('rules_add') !!}">Add</a>
+                                            <li class="navLi"><a href="{!! route('rules_add',0) !!}">Add</a>
                                             </li>
                                         <li>Menu Items</li>
                                             <li class="navLi"><a href="{!! route('menu-items_index') !!}">Index</a>

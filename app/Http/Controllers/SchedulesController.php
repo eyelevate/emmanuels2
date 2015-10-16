@@ -128,7 +128,7 @@ class SchedulesController extends Controller{
 			$schedules->description = Input::get('description');
 			$schedules->status = 1;
 			if ($schedules->save()) {
-				return Redirect::route('schedules_index');
+				return Redirect::route('rules_add',$schedules->id);
 			}
 		} 	else {
 			return Redirect::back()
