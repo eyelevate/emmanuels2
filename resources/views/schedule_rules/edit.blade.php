@@ -45,7 +45,8 @@ for ($i=0; $i <= 60; $i++) {
 		<ul id="deliveryStepy" class="nav nav-pills nav-stacked">
 			<li id="s-stepy" class="active" role="presentation"><a href="#setup"><span class="badge">1</span> Schedules</a></li>
 			<li id="schedule-stepy" class="" role="presentation"><a href="#type"><span class="badge">2</span> Weekly Schedule</a></li>
-			<li id="blackout-stepy" class="" role="presentation"><a href="#blackout_date"><span class="badge">3</span> Blackout Dates and Areas</a></li>
+			<li id="zipcode-stepy" class="" role="presentation"><a href="#zipcodes"><span class="badge">3</span> Zipcodes</a></li>
+			<li id="blackout-stepy" class="" role="presentation"><a href="#blackout_date"><span class="badge">4</span> Blackout Dates</a></li>
 		</ul>
 	</div>
 	<div class="col-md-9 pull-right">
@@ -121,17 +122,15 @@ for ($i=0; $i <= 60; $i++) {
 				<button type="button" id="first-next" step="2" class="btn btn-primary pull-right next" >Next <i class="glyphicon glyphicon-chevron-right"></i></button>
 			</div>
 		</div>
-
-
 		<!-- DATE STEP -->
-		<div id="blackout_date" class="steps panel panel-success hide">
-			<div class="panel-heading" style="font-size:17px;"><strong>Blackout Dates and Areas</strong></div>
+		<div id="zipcodes" class="steps panel panel-success hide">
+			<div class="panel-heading" style="font-size:17px;"><strong>Zipcodes</strong></div>
 			<div class="panel-body">
 				<div class="third_section">
 
 					
 					<div class="blackout wrapper">
-						<label class="control-label" for="description">Areas</label>
+						<label class="control-label" for="description">Zipcodes</label>
 
 						<i type="button" class="glyphicon glyphicon-info-sign" data-toggle="tooltip"
 						 data-placement="top" title="Blackout dates are dates that services are not available. For example a major holiday."></i>
@@ -149,8 +148,22 @@ for ($i=0; $i <= 60; $i++) {
 						</div>
 
 					</div>
+				</div>
+			</div>
+			<div class="panel-footer clearfix">
+				<button type="button" class="previous btn btn-default" step="1"><i class="glyphicon glyphicon-chevron-left"></i> Previous</button>
+				<button type="button" id="first-next" step="3" class="btn btn-primary pull-right next" >Next <i class="glyphicon glyphicon-chevron-right"></i></button>
+			</div>
 
-					<hr>
+		</div>
+
+
+
+		<!-- DATE STEP -->
+		<div id="blackout_date" class="steps panel panel-success hide">
+			<div class="panel-heading" style="font-size:17px;"><strong>Blackout Dates</strong></div>
+			<div class="panel-body">
+				<div class="third_section">
 					<div class="blackout wrapper">
 						<label class="control-label" for="description">Blackout Dates</label>
 
@@ -176,6 +189,17 @@ for ($i=0; $i <= 60; $i++) {
 			</div>
 
 		</div>
+
+
+
+
+
+
+
+
+
+
+
 	</div>
 	{!! Form::close() !!}
 </div>

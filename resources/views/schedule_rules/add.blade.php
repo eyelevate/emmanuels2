@@ -174,7 +174,7 @@ for ($i=0; $i <= 60; $i++) {
 
 		<!-- DATE STEP -->
 		<div id="blackout_date" class="steps panel panel-success hide">
-			<div class="panel-heading" style="font-size:17px;"><strong>Blackout Dates and Areas</strong></div>
+			<div class="panel-heading" style="font-size:17px;"><strong>Blackout Dates</strong></div>
 			<div class="panel-body">
 				<div class="third_section">
 					<div class="blackout wrapper">

@@ -153,10 +153,20 @@ class ScheduleRulesController extends Controller {
 
 	public function postDelete()
 	{
-		
+		$id = Input::get('schedule_rules_id');
+		$schedules = ScheduleRule::find($id);
+		if($schedules->delete()) {
+			return Redirect::action('ScheduleRulesController@getIndex')
+			->with('message', 'Successfully deleted!')
+			->with('alert_type','alert-success');
+		} else {
+			return Redirect::back()
+			->with('message', 'Oops, somthing went wrong. Please try again.')
+			->with('alert_type','alert-danger');	
+		}
 	}
 
-		public function postAddOverwrite() {
+	public function postAddOverwrite() {
 		if(Request::ajax()) {
 			$current_count = Input::get('count');
 			$html = ScheduleLimit::prepareNewOverwrite($current_count);

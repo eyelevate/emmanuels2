@@ -100,61 +100,6 @@ class Schedule extends Model  {
         }
         return $schedules;
     }
-	// public static function prepareSchedules($data) {
-	// 	if(isset($data)) {
-	// 		foreach ($data as $key => $value) {
-	// 			if(isset($data[$key]['type'])) {
-	// 				switch($data[$key]['type']) {
-	// 					case 0:
-	// 					$data[$key]['type'] = 'Work Order';
-	// 					break;
-
-	// 					case 1:
-	// 					$data[$key]['type'] = 'Estimate';
-	// 					break;
-	// 				}
-	// 			}
-
-	// 			if(isset($data[$key]['phone'])) {
-	// 				$data[$key]['phone'] = Job::format_phone($data[$key]['phone'],'US');
-	// 			}
-
-
-	// 			if(isset($data[$key]['pickup_date'])) {
-	// 				$data[$key]['pickup_date'] = date("l, d F, Y",strtotime($data[$key]['pickup_date']));
-	// 			}
-	// 			if(isset($data[$key]['delivery_date'])) {
-	// 				$data[$key]['delivery_date'] = date("l, d F, Y",strtotime($data[$key]['delivery_date']));
-	// 			}
-
-	// 			if(isset($data[$key]['created_at'])) {
-	// 				$data[$key]['created_html'] = date("l, d F, Y",strtotime($data[$key]['created_at']));
-	// 			}
-
-
-	// 			if(isset($data[$key]['street'],$data[$key]['street'],$data[$key]['unit'],$data[$key]['zipcode'],$data[$key]['city'])) {
-	// 				$data[$key]['address'] = $data[$key]['unit'].' '.$data[$key]['street'].', '.$data[$key]['city'].', '.$data[$key]['state'].', '.$data[$key]['zipcode'];
-	// 			}
-
-	// 			if(isset($data[$key]['status'])) {
-	// 				switch($data[$key]['status']) {
-	// 					case 1:
-	// 					$data[$key]['status_html'] = '<span class="label label-success">active</span>';
-	// 					break;
-
-	// 					case 2:
-	// 					$data[$key]['status_html'] = '<span class="label label-warning">not active</span>';
-	// 					break;
-
-	// 					case 3:
-	// 					$data[$key]['status_html'] = '<span class="label label-danger">errors</span>';
-	// 					break;
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	// 	return $data;
-	// }
 
 	public static function prepareOrderForm($count,$count_form) {
 		$services = Service::all();

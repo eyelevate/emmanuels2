@@ -72,12 +72,18 @@ class ScheduleRule extends Model {
 				if(isset($data['weekly_schedule'])) {
 					$data['weekly_schedule_de'] = json_decode($data['weekly_schedule']);
 
+
+
 					foreach ($data['weekly_schedule_de'] as $wskey => $wsvalue) {
 						$break_count = 0;
+						$badge_count = 0;
 						$day_id = $wskey;
+						$wsvalue->breaks_html = '';
 						if (isset($wsvalue->breaks)) {
+
 							foreach ($wsvalue->breaks as $wbkey => $wbvalue) {
 								$break_count++;
+								$badge_count++;
 								$from_hour = $wbvalue->from_hour;
 								$from_minute = $wbvalue->from_minute;
 								$from_ampm = $wbvalue->from_ampm;
@@ -85,20 +91,30 @@ class ScheduleRule extends Model {
 								$to_minute = $wbvalue->to_minute;
 								$to_ampm = $wbvalue->to_ampm;
 
-								$wsvalue->breaks_html = '';
+								
 
 				                $wsvalue->breaks_html .= '<div class="alert alert-info alert-dismissible br-alert" style="margin-bottom: 1px;"
 											                 role="alert"><button type="button" class="close" data-dismiss="alert" 
 											                 aria-label="Close"><span aria-hidden="true">&times;</span></button> 
-											                 <span class="badge b-badge">'.$break_count.'</span>&nbsp&nbspFrom&nbsp
+											                 <span class="badge b-badge">'.$badge_count.'</span>&nbsp&nbspFrom&nbsp
 											                 &nbsp'.$from_hour.':'.$from_minute.''.$from_ampm.'&nbsp&nbspTo&nbsp
-											                 &nbsp'.$to_hour.':'.$to_minute.''.$to_ampm.'</div>';
+											                 &nbsp'.$to_hour.':'.$to_minute.''.$to_ampm;
+
+
 				                $wsvalue->breaks_html .= '<input name="hours['.$day_id.'][breaks]['.$break_count.'][from_hour]" type="hidden" value="'.$from_hour.'">';
+
 				                $wsvalue->breaks_html .= '<input name="hours['.$day_id.'][breaks]['.$break_count.'][from_minute]" type="hidden" value="'.$from_minute.'">';
+
 				                $wsvalue->breaks_html .= '<input name="hours['.$day_id.'][breaks]['.$break_count.'][from_ampm]" type="hidden" value="'.$from_ampm.'">';
+
 				                $wsvalue->breaks_html	.= '<input name="hours['.$day_id.'][breaks]['.$break_count.'][to_hour]" type="hidden" value="'.$to_hour.'">';
+
 				                $wsvalue->breaks_html .= '<input name="hours['.$day_id.'][breaks]['.$break_count.'][to_minute]" type="hidden" value="'.$to_minute.'">';
+
 				                $wsvalue->breaks_html .= '<input name="hours['.$day_id.'][breaks]['.$break_count.'][to_ampm]" type="hidden" value="'.$to_ampm.'">';
+							
+				                $wsvalue->breaks_html .= '</div>';
+
 							}
 						}
 
@@ -122,7 +138,7 @@ class ScheduleRule extends Model {
 					            '<div class="alert alert-danger alert-style blackout-date clearfix" id="blackout-'.$bdkey.'" role="alert" >' .
 					            '<span class="badge">' . $bdkey . '</span>' .
 					            '   ' . $bdvalue .
-					            '<a class="btn btn-danger btn-sm pull-right " id="remove-blackout-' . $bdkey . '" >Remove</a>' .
+					            '<a class="btn btn-danger btn-sm pull-right blackout-remove-btn" id="remove-blackout-' . $bdkey . '" >Remove</a>' .
 					            '</div>' .
 					            '<input type="hidden" name="blackoutdates[' . $bdkey . ']" alert_id="blackout-'.$bdkey.'"  class="blackout-form"  value="' . $bdvalue . '">' .
 					            '</div>';

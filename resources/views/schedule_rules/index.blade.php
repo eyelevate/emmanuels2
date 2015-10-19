@@ -2,6 +2,7 @@
 @section('stylesheets')
 @stop
 @section('scripts')
+{!! Html::script('/assets/js/schedule_rules_index.js') !!}
 @stop
 @section('content')
 	<div class="jumbotron">
@@ -31,8 +32,8 @@
 				<td>{!! $schedule->status_html !!}</td>
 				<td><a href="{!! action('ScheduleRulesController@getEdit',$schedule->id) !!}">Edit</a>/
 					{!! Form::open(array('action' => 'ScheduleRulesController@postDelete', 'class'=>'remove-form','id'=>'form-'.$schedule->id,'role'=>"form",'files'=> true)) !!}
-					{!! Form::hidden('schedule_id', $schedule->id) !!}
-					<a class="remove"  data-toggle="modal" data-target="#myModal" schedule-id="{!!$schedule->id!!}" count="{!!$schedule->item_count!!}">Remove</a></td>
+					{!! Form::hidden('schedule_rules_id', $schedule->id) !!}
+					<a class="remove"  data-toggle="modal" data-target="#myModal" schedule-rules-id="{!!$schedule->id!!}" count="{!!$schedule->item_count!!}">Remove</a></td>
 					{!! Form::close() !!}</td>
 					
 				</tr>
@@ -40,7 +41,7 @@
 				@endforeach
 			</tbody>
 		</table>
-		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" schedule-rules-id="">
 			<div class="modal-dialog" style="z-index:99999">
 				<div class="modal-content">
 					<div class="modal-header alert alert-warning">
