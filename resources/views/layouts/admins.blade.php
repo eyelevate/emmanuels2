@@ -134,6 +134,11 @@
                                             </li>
                                             <li class="navLi"><a href="{!! route('rules_add',0) !!}">Add</a>
                                             </li>
+                                        <li>Transactions</li>
+                                            <li class="navLi"><a href="{!! route('schedule_transactions_index') !!}">Queue</a>
+                                            </li>
+                                            <li class="navLi"><a href="{!! route('schedule_transactions_new') !!}">Add</a>
+                                            </li>
                                         <li>Menu Items</li>
                                             <li class="navLi"><a href="{!! route('menu-items_index') !!}">Index</a>
                                             </li>

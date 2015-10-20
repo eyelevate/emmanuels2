@@ -660,7 +660,71 @@ public function postReturnUsers()
         }
     }
 }
+public function postInvoiceUsers()
+{
+    if(Request::ajax()){
+        $status = 400;
+        if (Auth::check()) {
+            $search = Input::get('search');
+            $users = array();
+            $status = 200;
+            $message = 'Successfully found users!';
+            if($search) {
+                foreach ($search as $key => $value) {
+                    $type = $key;
+                    switch ($type) {
+                        case 'name':
+                        $first_name = $value['first_name'];
+                        $last_name = $value['last_name'];
+                        $users = User::where('firstname','LIKE','%'.$first_name.'%')
+                            ->where('lastname','LIKE','%'.$last_name.'%')
+                            ->get();
 
+                        if(count($users) == 0){
+                            $status = 401;
+                            $message = 'No such name.';
+                        }
+                        break;
+                        default:
+                        foreach ($value as $column_name => $column_value) {
+                            $users = User::where($column_name,'LIKE','%'.$column_value.'%')->get();
+                        }
 
+                        if(count($users) == 0) {
+                            $status = 401;
+                            $message = 'No such user';
+                        }
+                        break;
+                    }
+                }
+            }
+            $user_data = ['users_tbody' => '', 'user' => '']; 
+            $user_data['users_tbody'] = User::PrepareUsersDataInvoice($users);
+            $user_data['user'] = $users;
+            return Response::json(array(
+                'status' => $status,
+                'message' => $message,
+                'user_data'   => $user_data
+                ));
+        }
+    }
+}
+public function postUserInfo()
+{
+    if(Request::ajax()){
+        $status = 400;
+        if (Auth::check()) {
+            $id = Input::get('id');
+            $users = User::find($id);
+            if (isset($users)) {
+                $status = 200;
+            }
+            return Response::json(array(
+                'status' => $status,
+                'users' => $users
+                ));
+        }
+    }
+}
 
 }

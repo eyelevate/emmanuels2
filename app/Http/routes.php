@@ -152,6 +152,14 @@ Route::group(['middleware' => 'beforeFilter'], function () {
 			Route::post('schedules/order-add',  ['uses' => 'SchedulesController@postOrderAdd', 'middleware' => ['acl:'.$prefix.'schedules/order-add']]);
 			Route::post('schedules/ajax-validation',  ['uses' => 'SchedulesController@postAjaxValidation', 'middleware' => ['acl:'.$prefix.'schedules/ajax-validation']]);
 
+			//SCHEDULES TRANSACTIONS
+			Route::get('schedules/queue',  ['as' => 'schedule_transactions_index','uses' => 'ScheduleTransactionsController@getIndex', 'middleware' => ['acl:'.$prefix.'/schedules/queue']]);
+			Route::get('schedules/new',  ['as' => 'schedule_transactions_new','uses' => 'ScheduleTransactionsController@getAdd', 'middleware' => ['acl:'.$prefix.'/schedules/new']]);
+			Route::post('schedules/new',  ['uses' => 'ScheduleTransactionsController@postAdd', 'middleware' => ['acl:'.$prefix.'/schedules/new']]);
+
+
+
+
 			//SCHEDULES LIMIT
 			Route::get('schedule-limits',  ['as' => 'schedule-limits_index','uses' => 'ScheduleLimitsController@getIndex', 'middleware' => ['acl:'.$prefix.'/schedule-limits']]);
 			Route::get('schedule-limits/add',  ['as' => 'schedule-limits_add','uses' => 'ScheduleLimitsController@getAdd', 'middleware' => ['acl:'.$prefix.'/schedule-limits/add']]);
@@ -307,6 +315,8 @@ Route::group(['middleware' => 'beforeFilter'], function () {
 			Route::get('users/view/{id}',  ['as' => 'users_view','uses' => 'UsersController@getView', 'middleware' => ['acl:'.$prefix.'/users/view'], function ($id) {}]);
 			Route::post('users/view',  ['uses' => 'UsersController@postView', 'middleware' => ['acl:'.$prefix.'/users/view']]);
 			Route::post('users/delete',  ['uses' => 'UsersController@postDelete', 'middleware' => ['acl:'.$prefix.'/users/delete']]);
+			Route::post('users/invoice-users',  ['uses' => 'UsersController@postInvoiceUsers', 'middleware' => ['acl:admins/acl/view']]);
+			Route::post('users/user-info',  ['uses' => 'UsersController@postUserInfo', 'middleware' => ['acl:admins/acl/view']]);
 
 		});
 	});

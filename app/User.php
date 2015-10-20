@@ -420,4 +420,26 @@ public static $rules_add = array(
 
         return $html;
     }
+    public static function PrepareUsersDataInvoice($data) {
+        $html = '';
+        if(isset($data)) {
+            foreach ($data as $key => $value) {
+                $html .= '<tr class="table-tr" style="cursor:pointer">';
+                $html .= '<td>'.$value->id.'</td>';
+                $html .= '<td>'.$value->username.'</td>';
+                $html .= '<td>'.$value->firstname.'</td>';
+                $html .= '<td>'.$value->lastname.'</td>';
+                $html .= '<td>'.$value->email.'</td>';
+                $html .= '<td> <div class="checkbox">
+                                    <label>
+                                      <input type="checkbox" class="invoice-customer" customer_id="'.$value->id.'"> Select User
+                                    </label>
+                                </div>
+                          </td>';
+                $html .= '</tr>';
+            }
+        }
+
+        return $html;
+    }
 }
