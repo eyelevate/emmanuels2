@@ -9,21 +9,10 @@ invoice = {
 		$.ajaxSetup({
 			headers: { 'X-CSRF-Token' : $('meta[name=csrf-token]').attr('content') }
 		});
+		jQuery('#datetimepicker').datetimepicker({minDate:0});
+
 	},
 	events: function() {
-
-
-        $("#pretax").priceFormat({
-			'prefix':''
-		});
-        $("#tax").priceFormat({
-			'prefix':''
-		});
-        $("#aftertax").priceFormat({
-			'prefix':''
-		});
-
-
 
 		$(".searchByButton").click(function(){
 			var type = $( "#searchBy option:selected" ).text();

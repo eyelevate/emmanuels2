@@ -24,6 +24,8 @@ use App\Permission;
 use App\PermissionRole;
 use App\Invoice;
 use App\Website;
+use App\ScheduleTransaction;
+
 
 class ScheduleTransactionsController extends Controller
 {
@@ -61,7 +63,10 @@ class ScheduleTransactionsController extends Controller
      */
     public function getIndex()
     {
-        //
+        $schedule_t = ScheduleTransaction::prepareScheduleT(ScheduleTransaction::get());
+        return view('schedule_transactions.queue')
+        ->with('layout',$this->layout)
+        ->with('schedule_t',$schedule_t);
     }
 
     /**

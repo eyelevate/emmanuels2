@@ -1,10 +1,11 @@
 @extends($layout)
 @section('stylesheets')
-
+{!! Html::style('/packages/datetimepicker-master/jquery.datetimepicker.css') !!}
 @stop
 @section('scripts')
 <!-- The main application script -->
 <script type="text/javascript" src="/packages/priceformat/priceformat.min.js"></script>
+<script type="text/javascript" src="/packages/datetimepicker-master/build/jquery.datetimepicker.full.min.js"></script>
 <script type="text/javascript" src="/assets/js/schedule_transactions/add.js"></script>
 @stop
 
@@ -21,8 +22,8 @@
 				<ul id="deliveryStepy" class="nav nav-pills nav-stacked">
 					<li class="active " role="presentation"><a href="#findUser"><span class="badge">1</span>&nbspSelect Customer</a></li>
 					<li class="customerInfo" role="presentation"><a href="#customerInfo"><span class="badge">2</span> Customer Info</a></li>
-					<li class="menuSelection" role="presentation"><a href="#invoiceInfo"><span class="badge">3</span> Invoice Info {!! (Session::get('menu_error') == true) ? '<span class="label label-danger pull-right">1 error</span>' : '' !!}</a></li>
-					<li role="presentation"><a href="#confirmation"><span class="badge">6</span> Confirmation</a></li>
+					<li class="menuSelection" role="presentation"><a href="#invoiceInfo"><span class="badge">3</span> Schedule Details {!! (Session::get('menu_error') == true) ? '<span class="label label-danger pull-right">1 error</span>' : '' !!}</a></li>
+					<li role="presentation"><a href="#confirmation"><span class="badge">4</span> Confirmation</a></li>
 				</ul>
 			</div>
 		</div>
@@ -150,13 +151,6 @@
 						<span class='help-block'>{!! $message !!}</span>
 						@endforeach
 					</div>
-					<div class="form-group {!! $errors->has('naver_username') ? 'has-error' : false !!}">
-						<label class="control-label" for="naver_username">Naver Username</label>
-						{!! Form::text('naver_username', null, array('id'=>'naver-username','class'=>'form-control', 'placeholder'=>'Naver Username')) !!}
-						@foreach($errors->get('naver_username') as $message)
-						<span class='help-block'>{!! $message !!}</span>
-						@endforeach
-					</div>
 					<div class="form-group {!! $errors->has('email') ? 'has-error' : false !!}">
 						<label class="control-label" for="email">Email</label>
 						{!! Form::text('email', null, array('id'=>'email','class'=>'form-control', 'placeholder'=>'(ex: example@example.com)','status'=>false)) !!}
@@ -236,18 +230,6 @@
 						<span class="glyphicon glyphicon-ok form-control-feedback hide"></span>
 						@endif
 					</div>	
-					<div class="form-group {!! $errors->has('country') ? 'has-error has-feedback' : false !!}">
-						{!! Form::label('country', 'Country', array('class' => 'control-label')) !!}
-						{!! Form::select('country', $country_code, 'US', array('id'=>'country','class'=>'form-control','not_empty'=>'true')) !!}
-						@foreach($errors->get('country') as $message)
-						<span class='help-block'>{!! $message !!}</span>
-						<span class="glyphicon glyphicon-ok form-control-feedback"></span>
-						@endforeach
-						@if(count($errors) == 0)
-						<span class='help-block hide'></span>
-						<span class="glyphicon glyphicon-ok form-control-feedback hide"></span>
-						@endif
-					</div>	
 				</div>
 
 
@@ -276,79 +258,7 @@
 			<div class="panel-body">
 				<div id="customerGuests" class="customerListDiv">
 
-					<div class="form-group {!! $errors->has('pretax') ? 'has-error has-feedback' : false !!}">
-						{!! Form::label('_pretax', 'Pretax', array('class' => 'control-label')) !!}
-						{!! Form::text('pretax', null, array('id'=>'pretax','class'=>'form-control','not_empty'=>'true', 'placeholder'=>'Pretax')) !!}
-						@foreach($errors->get('pretax') as $message)
-						<span class='help-block'>{!! $message !!}</span>
-						<span class="glyphicon glyphicon-ok form-control-feedback"></span>
-						@endforeach
-						@if(count($errors) == 0)
-						<span class='help-block hide'></span>
-						<span class="glyphicon glyphicon-ok form-control-feedback hide"></span>
-						@endif
-					</div> 
-					<div class="form-group {!! $errors->has('tax') ? 'has-error has-feedback' : false !!}">
-						{!! Form::label('_tax', 'Tax', array('class' => 'control-label')) !!}
-						{!! Form::text('tax', null, array('id'=>'tax','class'=>'form-control','not_empty'=>'true', 'placeholder'=>'Tax')) !!}
-						@foreach($errors->get('tax') as $message)
-						<span class='help-block'>{!! $message !!}</span>
-						<span class="glyphicon glyphicon-ok form-control-feedback"></span>
-						@endforeach
-						@if(count($errors) == 0)
-						<span class='help-block hide'></span>
-						<span class="glyphicon glyphicon-ok form-control-feedback hide"></span>
-						@endif
-					</div> 
-					<div class="form-group {!! $errors->has('aftertax') ? 'has-error has-feedback' : false !!}">
-						{!! Form::label('_aftertax', 'Aftertax', array('class' => 'control-label')) !!}
-						{!! Form::text('aftertax', null, array('id'=>'aftertax','class'=>'form-control','not_empty'=>'true', 'placeholder'=>'Aftertax')) !!}
-						@foreach($errors->get('aftertax') as $message)
-						<span class='help-block'>{!! $message !!}</span>
-						<span class="glyphicon glyphicon-ok form-control-feedback"></span>
-						@endforeach
-						@if(count($errors) == 0)
-						<span class='help-block hide'></span>
-						<span class="glyphicon glyphicon-ok form-control-feedback hide"></span>
-						@endif
-					</div> 
-					<div class="form-group {!! $errors->has('quantity') ? 'has-error has-feedback' : false !!}">
-						{!! Form::label('_quantity', 'Quantity', array('class' => 'control-label')) !!}
-						{!! Form::text('quantity', null, array('id'=>'quantity','class'=>'form-control','not_empty'=>'true', 'placeholder'=>'Quantity')) !!}
-						@foreach($errors->get('quantity') as $message)
-						<span class='help-block'>{!! $message !!}</span>
-						<span class="glyphicon glyphicon-ok form-control-feedback"></span>
-						@endforeach
-						@if(count($errors) == 0)
-						<span class='help-block hide'></span>
-						<span class="glyphicon glyphicon-ok form-control-feedback hide"></span>
-						@endif
-					</div> 
-					<div class="form-group {!! $errors->has('payment_id') ? 'has-error has-feedback' : false !!}">
-						{!! Form::label('_payment_id', 'Payment_id', array('class' => 'control-label')) !!}
-						{!! Form::text('payment_id', null, array('id'=>'payment_id','class'=>'form-control','not_empty'=>'true', 'placeholder'=>'Payment_id')) !!}
-						@foreach($errors->get('payment_id') as $message)
-						<span class='help-block'>{!! $message !!}</span>
-						<span class="glyphicon glyphicon-ok form-control-feedback"></span>
-						@endforeach
-						@if(count($errors) == 0)
-						<span class='help-block hide'></span>
-						<span class="glyphicon glyphicon-ok form-control-feedback hide"></span>
-						@endif
-					</div> 
-					<div class="form-group {!! $errors->has('payment_type') ? 'has-error has-feedback' : false !!}">
-						{!! Form::label('payment_type', 'Payment_type', array('class' => 'control-label')) !!}
-						{!! Form::select('payment_type', $payment_select, null, array('id'=>'payment_type','class'=>'form-control','not_empty'=>'true')) !!}
-						@foreach($errors->get('payment_type') as $message)
-						<span class='help-block'>{!! $message !!}</span>
-						<span class="glyphicon glyphicon-ok form-control-feedback"></span>
-						@endforeach
-						@if(count($errors) == 0)
-						<span class='help-block hide'></span>
-						<span class="glyphicon glyphicon-ok form-control-feedback hide"></span>
-						@endif
-					</div>	
-
+					<input id="datetimepicker" type="text" >
 
 				</div>
 			</div>
