@@ -1,15 +1,17 @@
 @extends($layout)
 @section('stylesheets')
-{!! Html::style('/packages/datetimepicker-master/jquery.datetimepicker.css') !!}
+{!! Html::style('/packages/fullcalendar-2-4-0/fullcalendar.min.css') !!}
+
 @stop
 @section('scripts')
 <!-- The main application script -->
-<script type="text/javascript" src="/packages/priceformat/priceformat.min.js"></script>
-<script type="text/javascript" src="/packages/datetimepicker-master/build/jquery.datetimepicker.full.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+<script type="text/javascript" src="/packages/fullcalendar-2-4-0/fullcalendar.min.js"></script>
 <script type="text/javascript" src="/assets/js/schedule_transactions/add.js"></script>
 @stop
 
 @section('content')
+
 <div class="jumbotron">
 	<h1>Invoices Add</h1>
 </div>
@@ -20,9 +22,9 @@
 		<div class="panel panel-info">
 			<div class="panel-body">
 				<ul id="deliveryStepy" class="nav nav-pills nav-stacked">
-					<li class="active " role="presentation"><a href="#findUser"><span class="badge">1</span>&nbspSelect Customer</a></li>
+					<li class=" " role="presentation"><a href="#findUser"><span class="badge">1</span>&nbspSelect Customer</a></li>
 					<li class="customerInfo" role="presentation"><a href="#customerInfo"><span class="badge">2</span> Customer Info</a></li>
-					<li class="menuSelection" role="presentation"><a href="#invoiceInfo"><span class="badge">3</span> Schedule Details {!! (Session::get('menu_error') == true) ? '<span class="label label-danger pull-right">1 error</span>' : '' !!}</a></li>
+					<li class="menuSelection active" role="presentation"><a href="#invoiceInfo"><span class="badge">3</span> Schedule Details {!! (Session::get('menu_error') == true) ? '<span class="label label-danger pull-right">1 error</span>' : '' !!}</a></li>
 					<li role="presentation"><a href="#confirmation"><span class="badge">4</span> Confirmation</a></li>
 				</ul>
 			</div>
@@ -31,11 +33,10 @@
 	</div>
 	<div class="col-md-9 col-sm-9 col-xs-12">
 
-
 		<!-- ====================== -->
 		<!-- ********STEP 1******** -->
 		<!-- ====================== -->
-		<div id="findUser" class="steps panel panel-info form-horizontal">
+		<div id="findUser" class="steps panel panel-info form-horizontal  hide">
 			<div class="panel-heading">
 				<h4>Select User</i></h4>
 			</div>
@@ -251,14 +252,23 @@
 		<!-- ====================== -->
 		<!-- ********STEP 3******** -->
 		<!-- ====================== -->		
-		<div id="invoiceInfo" class="steps panel panel-info hide">
+		<div id="invoiceInfo" class="steps panel panel-info">
 			<div class="panel-heading">
 				<h4>Invoice Information</i></h4>
 			</div>
 			<div class="panel-body">
 				<div id="customerGuests" class="customerListDiv">
 
-					<input id="datetimepicker" type="text" >
+
+					<div class="form-group {!! $errors->has('rules_id') ? 'has-error' : false !!}">
+						<label class="control-label" for="rules_id">Schedule Rule</label>
+						{!! Form::select('rules_id',$rules ,null, ['id'=>'rules_id','class'=>'form-control']) !!}
+						@foreach($errors->get('rules_id') as $message)
+						<span class='help-block'>{!! $message !!}</span>
+						@endforeach
+					</div>
+			
+					<div id='calendar'></div>
 
 				</div>
 			</div>

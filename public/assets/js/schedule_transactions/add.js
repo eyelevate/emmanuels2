@@ -9,10 +9,87 @@ invoice = {
 		$.ajaxSetup({
 			headers: { 'X-CSRF-Token' : $('meta[name=csrf-token]').attr('content') }
 		});
-		jQuery('#datetimepicker').datetimepicker({minDate:0});
+
+		var eventss =  [ // put the array in the `events` property
+                {
+                	title:'ava',
+				    start: '08:00', // a start time (10am in this example)
+				    end: '12:00', // an end time (6pm in this example)
+				    dow: [1,2],
+				    ranges: [{
+				        start: moment('2015-02-1'), //all of february
+				        end: moment('2015-02-12')
+				    }]
+                },
+                {
+                	title:'ava',
+				    start: '08:00', // a start time (10am in this example)
+				    end: '12:00', // an end time (6pm in this example)
+				    dow: [1,2],
+				    ranges: [{
+				        start: moment('2015-02-1'), //all of february
+				        end: moment('2015-02-12')
+				    }]
+                },
+                {
+                	title:'ava',
+				    start: '08:00', // a start time (10am in this example)
+				    end: '12:00', // an end time (6pm in this example)
+				    dow: [1,2],
+				    ranges: [{
+				        start: moment('2015-02-17'), //all of february
+				        end: moment('2015-02-30')
+				    }]
+                },
+                {
+                	title:'Blackout Date',
+                	color:'black',
+				    start: '2015-02-12', // a start time (10am in this example)
+				    end: '2015-02-17', // a start time (10am in this example)
+                },
+            ];
+
+		$('#calendar').fullCalendar({
+			header: {
+				left: 'prev,next today',
+				center: 'title',
+				right: 'month'
+			},
+			defaultDate: '2015-02-12',
+			eventLimit: true,
+			displayEventTime :true,
+			displayEventEnd:true,
+			timeFormat: 'HH:mm a', // uppercase H for 24-hour clock
+			eventRender: function(event, element, view){
+
+				if (event.title == 'Blackout Date') {
+				
+				} else{
+
+					 return (event.ranges.filter(function(range){ // test event against all the ranges
+				    			return (event.start.isBefore(range.end) &&
+				                event.end.isAfter(range.start));
+
+				    }).length)>0; //if it isn't in one of the ranges, don't render it (by returning false)
+				}
+
+			}
+		});
+
+		$('#calendar').fullCalendar('removeEvents');
+		$('#calendar').fullCalendar('addEventSource',eventss);
+
 
 	},
 	events: function() {
+
+		$("#rules_id").change(function(){
+			var id = $( "#rules_id option:selected" ).val();
+			var this_date = $('#calendar').fullCalendar('getDate');
+			var this_date_text = this_date._i;
+			request.return_rules(id,this_date_text);
+		});
+
 
 		$(".searchByButton").click(function(){
 			var type = $( "#searchBy option:selected" ).text();
@@ -77,8 +154,6 @@ invoice = {
 				setDeliveryAddress();
 				
 
-			} else if (href == '#confirmation'){
-				varifyInputs();
 			} else if (href == '#customerInfo') {
 				if (previous_step.hasClass('deliverySetup')) {
 					var type = $(document).find('#searchCustomerNavTabs .active').attr('type');
@@ -182,6 +257,31 @@ request = {
 				}
 				);
 	},
+		return_rules: function(id,this_date_text) {
+		var token = $('meta[name=csrf-token]').attr('content');
+		$.post(
+			'/admins/schedule-rules/return-rules',
+			{
+				"_token": token,
+				"id": id,
+				"this_date_text": this_date_text
+			},
+			function(result){
+				var status = result.status;
+				switch(status) {
+					case 200: 
+
+					break;				
+					case 400: 
+						
+					break;
+					default:
+					break;
+				}
+
+				}
+				);
+	}
 
 };
 

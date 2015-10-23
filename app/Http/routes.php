@@ -185,6 +185,7 @@ Route::group(['middleware' => 'beforeFilter'], function () {
 			Route::post('schedule-rules/overwrite',  ['uses' => 'ScheduleRulesController@postAddOverwrite', 'middleware' => ['acl:'.$prefix.'/schedule-rules/overwrite']]);
 			Route::post('schedule-rules/validate-hours',  ['uses' => 'ScheduleRulesController@postValidateHours', 'middleware' => ['acl:'.$prefix.'/schedule-rules/validate-hours']]);
 			Route::post('schedule-rules/validate-overwrite-hours',  ['uses' => 'ScheduleRulesController@postValidateOverWriteHours', 'middleware' => ['acl:'.$prefix.'/schedule-rules/validate-overwrite-hours']]);
+			Route::post('schedule-rules/return-rules',  ['uses' => 'ScheduleRulesController@postReturnRules', 'middleware' => ['acl:'.$prefix.'/schedule-rules/return-rules']]);
 
 
 			Route::get('services',  ['as' => 'services_index','uses' => 'ServicesController@getIndex', 'middleware' => ['acl:'.$prefix.'/services']]);

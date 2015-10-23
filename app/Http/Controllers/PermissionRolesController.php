@@ -115,9 +115,7 @@ class PermissionRolesController extends Controller
                         $permission_role->permission_id = $alvalue->id;
                         $permission_role->role_id = $role;
                         $permission_role->save();
-                        }  else {
-                        Flash::error('Duplicate Entry');
-                       }
+                        }
                    }
                 } else if ($role == "-999") {//ALL
                     $all_roles = Role::all();
@@ -131,9 +129,6 @@ class PermissionRolesController extends Controller
                             $permission_role->permission_id = $permission;
                             $permission_role->role_id = $arvalue->id;
                             $permission_role->save();
-                        }
-                        else {
-                            Flash::error('Duplicate Entry');
                         }
                     }
                 } else {

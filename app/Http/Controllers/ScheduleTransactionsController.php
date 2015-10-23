@@ -25,6 +25,7 @@ use App\PermissionRole;
 use App\Invoice;
 use App\Website;
 use App\ScheduleTransaction;
+use App\ScheduleRule;
 
 
 class ScheduleTransactionsController extends Controller
@@ -79,11 +80,15 @@ class ScheduleTransactionsController extends Controller
         $country = Job::country_code();
         $search_by = User::search_by();
         $payment_select = Invoice::PaymentSelect();
+
+        $rules = ScheduleRule::PrepareForSelect(ScheduleRule::get());
+
         return view('schedule_transactions.add')
         ->with('layout',$this->layout)
         ->with('search_by',$search_by)
         ->with('payment_select',$payment_select)
-        ->with('country_code',$country);
+        ->with('country_code',$country)
+        ->with('rules',$rules);
     }
     public function postAdd()
     {
