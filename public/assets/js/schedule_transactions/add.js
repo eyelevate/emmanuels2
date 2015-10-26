@@ -10,44 +10,6 @@ invoice = {
 			headers: { 'X-CSRF-Token' : $('meta[name=csrf-token]').attr('content') }
 		});
 
-		var eventss =  [ // put the array in the `events` property
-                {
-                	title:'ava',
-				    start: '08:00', // a start time (10am in this example)
-				    end: '12:00', // an end time (6pm in this example)
-				    dow: [1,2],
-				    ranges: [{
-				        start: moment('2015-02-1'), //all of february
-				        end: moment('2015-02-12')
-				    }]
-                },
-                {
-                	title:'ava',
-				    start: '08:00', // a start time (10am in this example)
-				    end: '12:00', // an end time (6pm in this example)
-				    dow: [1,2],
-				    ranges: [{
-				        start: moment('2015-02-1'), //all of february
-				        end: moment('2015-02-12')
-				    }]
-                },
-                {
-                	title:'ava',
-				    start: '08:00', // a start time (10am in this example)
-				    end: '12:00', // an end time (6pm in this example)
-				    dow: [1,2],
-				    ranges: [{
-				        start: moment('2015-02-17'), //all of february
-				        end: moment('2015-02-30')
-				    }]
-                },
-                {
-                	title:'Blackout Date',
-                	color:'black',
-				    start: '2015-02-12', // a start time (10am in this example)
-				    end: '2015-02-17', // a start time (10am in this example)
-                },
-            ];
 
 		$('#calendar').fullCalendar({
 			header: {
@@ -55,30 +17,15 @@ invoice = {
 				center: 'title',
 				right: 'month'
 			},
-			defaultDate: '2015-02-12',
-			eventLimit: true,
+			defaultDate: '2016-02-12',
+			eventLimit: 6,
 			displayEventTime :true,
 			displayEventEnd:true,
-			timeFormat: 'HH:mm a', // uppercase H for 24-hour clock
-			eventRender: function(event, element, view){
-
-				if (event.title == 'Blackout Date') {
-				
-				} else{
-
-					 return (event.ranges.filter(function(range){ // test event against all the ranges
-				    			return (event.start.isBefore(range.end) &&
-				                event.end.isAfter(range.start));
-
-				    }).length)>0; //if it isn't in one of the ranges, don't render it (by returning false)
-				}
-
-			}
+			timeFormat: 'HH:mm a'
 		});
 
-		$('#calendar').fullCalendar('removeEvents');
-		$('#calendar').fullCalendar('addEventSource',eventss);
-
+			// $('#calendar').fullCalendar('removeEvents');
+			// $('#calendar').fullCalendar('addEventSource',events);
 
 	},
 	events: function() {
@@ -268,9 +215,11 @@ request = {
 			},
 			function(result){
 				var status = result.status;
+				var events = result.events;
 				switch(status) {
 					case 200: 
-
+						$('#calendar').fullCalendar('removeEvents');
+						$('#calendar').fullCalendar('addEventSource',events);
 					break;				
 					case 400: 
 						

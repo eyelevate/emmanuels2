@@ -18,6 +18,7 @@ class ScheduleRule extends Model {
 
 	public static function PreparedHoursForFullcalendar($rules,$start_date,$end_date) {
 		$data = null;
+		$calendar_prepared = null;
 		if(isset($rules,$start_date,$end_date)) {
 			$start_data_ts = strtotime($start_date);
 			$end_data_ts = strtotime($end_date);
@@ -25,32 +26,111 @@ class ScheduleRule extends Model {
 				$key = date('Y-m-d', $i);
 				$data[$key] = [];
 			}
+			//PASS THE DATA TO NEXT STEP
 			$returned_rules = ScheduleRule::SetRules($data,$rules);
+			$calendar_prepared = ScheduleRule::PrepareCalendar($returned_rules);
 		}
-		return $data;
+		return $calendar_prepared;
 	}
 	private static function SetRules($data,$rules) {
 		if (isset($data,$rules)) {
 			$weekly_schedule = json_decode($rules['weekly_schedule']);
 			$blackoutdates = json_decode($rules['blackout_dates']);
 			$balckoutdates_reformated = ScheduleRule::DateToYmdFormat($blackoutdates);
-			Job::dump($balckoutdates_reformated);
 			foreach ($data as $dkey => $dvalue) {
+				$new_numeric_day = null;
 				$this_data_ts = strtotime($dkey);
 				$this_day_numeric = date('N',$this_data_ts);
-				$new_numeric_day = $this_day_numeric-1;
-				$data[$dkey] = ['open' => $weekly_schedule[$new_numeric_day]->open];
+				$new_numeric_day = $this_day_numeric==7?0:$this_day_numeric;
+				$is_blackout = false;
+				foreach ($balckoutdates_reformated as $bdkey => $bdvalue) {
+					if ($bdvalue == $dkey) {
+						$is_blackout = true;
+					}
+				}
+				$data[$dkey]['day'] = date('D',$this_data_ts);
+				$data[$dkey]['open'] = $weekly_schedule[$new_numeric_day]->open;
+				$data[$dkey]['blackout'] = $is_blackout;
+				if ($is_blackout == false && $data[$dkey]['open'] == 'open') {
+					$data[$dkey]['scheduels'] = $weekly_schedule[$new_numeric_day];
+				}
 			}
 		}
-		// Job::dump($balckoutdates_reformated);
 		return $data;
 	}
+	private static function PrepareCalendar($data) {
+		if (isset($data)) {
+			$events = [];
+			$counter = 0;
+			$break_size = 0;
+
+			foreach ($data as $dkey => $dvalue) {
+				// Job::dump($dvalue);
+				if ($dvalue['open'] == 'open' && $dvalue['blackout'] == false) {
+
+					if (isset($dvalue['scheduels'],$dvalue['scheduels']->breaks)) {
+						$break_size = 0;
+						foreach ($dvalue['scheduels']->breaks as $bskey => $bsvalue) {
+							$break_size++;
+						}
+					}
+
+					if ($break_size > 0) {
+						$events[$counter] =  [ // put the array in the `events` property
+							'title' => ''.$dvalue['scheduels']->open_hour.':'.$dvalue['scheduels']->open_minute.$dvalue['scheduels']->open_ampm.
+										' to '.$dvalue['scheduels']->close_hour.':'.$dvalue['scheduels']->close_minute.$dvalue['scheduels']->close_ampm,
+							'start' => $dkey
+						];
+						for ($i=0; $i <= $break_size; $i++) { 
+
+							$events[$counter.'b'] =  [ // put the array in the `events` property
+							'title' => 'Break From '.$dvalue['scheduels']->open_hour.':'.$dvalue['scheduels']->open_minute.$dvalue['scheduels']->open_ampm.
+										' to '.$dvalue['scheduels']->close_hour.':'.$dvalue['scheduels']->close_minute.$dvalue['scheduels']->close_ampm,
+							'start' => $dkey,
+							'color' => 'orange'
+							];
+
+							$counter++;
+						}
+					} else {
+						$events[$counter] =  [ // put the array in the `events` property
+							'title' => ''.$dvalue['scheduels']->open_hour.':'.$dvalue['scheduels']->open_minute.
+										' to '.$dvalue['scheduels']->close_hour.':'.$dvalue['scheduels']->close_minute,
+							'start' => $dkey
+						];
+					}
+
+
+				} elseif ($dvalue['blackout'] == true) {
+						$events[$counter] =  [ // put the array in the `events` property
+							'title' => 'Blackout Day',
+							'start' => $dkey,
+							'color' => 'black'
+						];
+				}
+				
+
+
+				$counter++;
+			}
+
+		}
+		$new_events = array_values($events);
+		return $new_events;
+	}
+
+
 	private static function DateToYmdFormat($date) {
 		if (isset($date)) {
 			foreach ($date as $key => $value) {
-				$value_ts = strtotime($value);
-				$value_reformated = date('Y-m-d',$value_ts);
+
+				//this is how we fix the date time issue
+				$t = date_create_from_format("D, d M, Y",$value);
+				$value_reformated = date_format($t,"Y-m-d");
+				//--------
+
 				$date->$key = $value_reformated;
+
 			}
 		}
 		return $date;

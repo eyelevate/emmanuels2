@@ -201,10 +201,12 @@ class ScheduleRulesController extends Controller {
 		if(Request::ajax()) {
 			$id = Input::get('id');
 			$this_data = Input::get('this_date_text');
+
 			$this_date_timestamp = strtotime($this_data);
 			$this_month = date("m", $this_date_timestamp);
 			$this_year = date("Y", $this_date_timestamp);
 			$last_day_of_this_month = date("t",$this_date_timestamp);
+
 			$start_date = $this_year.'-'.$this_month.'-01';
 			$end_date = $this_year.'-'.$this_month.'-'.$last_day_of_this_month;
 
@@ -214,7 +216,8 @@ class ScheduleRulesController extends Controller {
 			
 
     		return Response::json(array(
-    			'status' => 200
+    			'status' => 200,
+    			'events' => $data_for_fullcalendar
     		));
 		}
 	}
