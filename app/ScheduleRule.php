@@ -99,8 +99,6 @@ class ScheduleRule extends Model {
 							'start' => $dkey
 						];
 					}
-
-
 				} elseif ($dvalue['blackout'] == true) {
 						$events[$counter] =  [ // put the array in the `events` property
 							'title' => 'Blackout Day',
@@ -108,9 +106,6 @@ class ScheduleRule extends Model {
 							'color' => 'black'
 						];
 				}
-				
-
-
 				$counter++;
 			}
 
@@ -135,17 +130,9 @@ class ScheduleRule extends Model {
 		}
 		return $date;
 	}
-
-
-
-
-
-
-
 	public static $rules_add = array(
 		
 		);
-
 	public static function prepareSchedules($data) {
 		if(isset($data)) {
 			foreach ($data as $key => $value) {

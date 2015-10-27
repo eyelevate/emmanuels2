@@ -213,8 +213,6 @@ class ScheduleRulesController extends Controller {
 			$rules = ScheduleRule::find($id);
 			$data_for_fullcalendar = ScheduleRule::PreparedHoursForFullcalendar($rules,$start_date,$end_date);
 
-			
-
     		return Response::json(array(
     			'status' => 200,
     			'events' => $data_for_fullcalendar
