@@ -27,92 +27,185 @@ class ScheduleRule extends Model {
 				$data[$key] = [];
 			}
 			//PASS THE DATA TO NEXT STEP
-			$returned_rules = ScheduleRule::SetRules($data,$rules);
+			
+			$prepare_rules = ScheduleRule::PrepareRules($rules);
+			$prepared_hourly_rules = ScheduleRule::PrepareHourlyRules($prepare_rules);
+			//ADD OVERWRITE HERE
+			$returned_rules = ScheduleRule::SetRules($data,$prepared_hourly_rules,$prepare_rules);
 			$calendar_prepared = ScheduleRule::PrepareCalendar($returned_rules);
 		}
 		return $calendar_prepared;
 	}
-	private static function SetRules($data,$rules) {
-		if (isset($data,$rules)) {
-			$weekly_schedule = json_decode($rules['weekly_schedule']);
-			$blackoutdates = json_decode($rules['blackout_dates']);
-			$balckoutdates_reformated = ScheduleRule::DateToYmdFormat($blackoutdates);
+
+	private static function PrepareCalendar($data) {
+		if (isset($data)) {
+			$events = [];
+			
 			foreach ($data as $dkey => $dvalue) {
-				$new_numeric_day = null;
-				$this_data_ts = strtotime($dkey);
-				$this_day_numeric = date('N',$this_data_ts);
-				$new_numeric_day = $this_day_numeric==7?0:$this_day_numeric;
-				$is_blackout = false;
-				foreach ($balckoutdates_reformated as $bdkey => $bdvalue) {
-					if ($bdvalue == $dkey) {
-						$is_blackout = true;
+				$h_key = 0;
+				$now_time = date("H:i:s");
+				$key_preapred = $dkey.' '.$now_time;
+				$key_strtotime = strtotime($key_preapred);
+				if (isset($dvalue['weekly_schedule'])) {
+					foreach ($dvalue['weekly_schedule'] as $wskey => $wsvalue) {
+						$h_key++;
+						$start_time = date('H:ia', $wsvalue['start']);
+						$end_time = date('H:ia', $wsvalue['end']);
+						$color = $wsvalue['color'];
+
+
+
+						$events[$key_strtotime.$h_key] =  [ // put the array in the `events` property
+									'title' => $start_time.'-'.$end_time,
+									'start' => $dkey,
+									'color' => $color
+								];
+
 					}
 				}
-				$data[$dkey]['day'] = date('D',$this_data_ts);
-				$data[$dkey]['open'] = $weekly_schedule[$new_numeric_day]->open;
-				$data[$dkey]['blackout'] = $is_blackout;
-				if ($is_blackout == false && $data[$dkey]['open'] == 'open') {
-					$data[$dkey]['scheduels'] = $weekly_schedule[$new_numeric_day];
+			}
+		}
+		// Job::dump($events);
+		$new_events = array_values($events);
+		return $new_events;
+	}
+
+	private static function PrepareHourlyRules($prepare_rules) {
+		$full_schedule = [];
+		if (isset($prepare_rules)) {
+				foreach ($prepare_rules['weekly_schedule'] as $wskey => $wsvalue) {
+					if ($prepare_rules['weekly_schedule'][$wskey]['open'] == true) {
+						$open_time = $prepare_rules['weekly_schedule'][$wskey]['open_time'];
+						$close_time = $prepare_rules['weekly_schedule'][$wskey]['close_time'];
+						$key = 0;
+
+						for ($i=$open_time; $i <= $close_time; $i+=$prepare_rules['time_per_service']) { 
+							$key++;
+							$start_hour = $i;
+							$end_hour = $i + $prepare_rules['time_per_service'];
+
+
+								$full_schedule[$wskey][$start_hour] = [
+										//place in schedule_rules / schedules_transactions
+										'key'=> $key,
+										'start'=>$start_hour,
+										'end'=>$end_hour,
+										'schedule_count' => 2,
+										'drivers' => 3,
+										'color'=>'green'
+									];
+						}
+						if (isset($wsvalue['breaks'])) {
+							foreach ($wsvalue['breaks'] as $wsbkey => $wsbvalue) {
+								$full_schedule[$wskey][$wsbvalue['start']] = [
+										'start'=>$wsbvalue['start'],
+										'end'=>$wsbvalue['end'],
+										'schedule_count' => 2,
+										'drivers' => 3,
+										'color'=>'gray'
+									];
+							}
+						}
+					}
+				}
+			// sort schedule by timestamp
+			foreach($full_schedule as $fskey => $fsvalue){
+				ksort($full_schedule[$fskey]);
+			}
+		}
+		return $full_schedule;
+		
+	}
+
+	private static function SetRules($data,$prepared_hourly_rules,$pre_prepared_rules) {
+		if (isset($data,$prepared_hourly_rules,$pre_prepared_rules)) {
+			foreach ($data as $dkey => $dvalue) {
+				$is_blackout = false;
+				if (isset($pre_prepared_rules['blackout_dates']) && !empty($pre_prepared_rules['blackout_dates'])) {
+					foreach ($pre_prepared_rules['blackout_dates'] as $bodkey => $bodvalue) {
+						$bod_date = date('Y-m-d',$bodvalue);
+						// $is_blackout = $bod_date == $dkey ? true : false;
+						if ($bod_date == $dkey) {
+							$is_blackout = true;
+						}
+					}
+				}
+
+				if ($is_blackout == false) {
+					$now_time = date("H:i:s");
+					$key_preapred = $dkey.' '.$now_time;
+					$key_strtotime = strtotime($key_preapred);
+					$this_day_numeric = date('w',$key_strtotime);
+					$data[$dkey]['day'] = date('D',$key_strtotime);
+					$data[$dkey]['blackoutdates'] = false;
+					if (isset($prepared_hourly_rules[$this_day_numeric])) {
+						$data[$dkey]['weekly_schedule'] = $prepared_hourly_rules[$this_day_numeric];
+					}
+
+				} else {
+					$now_time = date("H:i:s");
+					$key_preapred = $dkey.' '.$now_time;
+					$key_strtotime = strtotime($key_preapred);
+					$data[$dkey]['day'] = date('D',$key_strtotime);
+					$data[$dkey]['blackoutdates'] = true;
 				}
 			}
 		}
 		return $data;
 	}
-	private static function PrepareCalendar($data) {
-		if (isset($data)) {
-			$events = [];
-			$counter = 0;
-			$break_size = 0;
 
-			foreach ($data as $dkey => $dvalue) {
-				// Job::dump($dvalue);
-				if ($dvalue['open'] == 'open' && $dvalue['blackout'] == false) {
 
-					if (isset($dvalue['scheduels'],$dvalue['scheduels']->breaks)) {
-						$break_size = 0;
-						foreach ($dvalue['scheduels']->breaks as $bskey => $bsvalue) {
-							$break_size++;
-						}
-					}
+	private static function PrepareRules($rules) {
+		
+		$prepared_rules_array = [];
 
-					if ($break_size > 0) {
-						$events[$counter] =  [ // put the array in the `events` property
-							'title' => ''.$dvalue['scheduels']->open_hour.':'.$dvalue['scheduels']->open_minute.$dvalue['scheduels']->open_ampm.
-										' to '.$dvalue['scheduels']->close_hour.':'.$dvalue['scheduels']->close_minute.$dvalue['scheduels']->close_ampm,
-							'start' => $dkey
-						];
-						for ($i=0; $i <= $break_size; $i++) { 
+		$scheduel_time_array = json_decode($rules['schedule_time'],true);
+		$schedule_time_hour = $scheduel_time_array['hour'];
+		$schedule_time_minute = $scheduel_time_array['minute'];
+		$scheduel_time_inseconds = ScheduleRule::HMtoS($schedule_time_hour,$schedule_time_minute);
+		$prepared_rules_array['time_per_service'] = $scheduel_time_inseconds;
 
-							$events[$counter.'b'] =  [ // put the array in the `events` property
-							'title' => 'Break From '.$dvalue['scheduels']->open_hour.':'.$dvalue['scheduels']->open_minute.$dvalue['scheduels']->open_ampm.
-										' to '.$dvalue['scheduels']->close_hour.':'.$dvalue['scheduels']->close_minute.$dvalue['scheduels']->close_ampm,
-							'start' => $dkey,
-							'color' => 'orange'
-							];
-
-							$counter++;
-						}
-					} else {
-						$events[$counter] =  [ // put the array in the `events` property
-							'title' => ''.$dvalue['scheduels']->open_hour.':'.$dvalue['scheduels']->open_minute.
-										' to '.$dvalue['scheduels']->close_hour.':'.$dvalue['scheduels']->close_minute,
-							'start' => $dkey
-						];
-					}
-				} elseif ($dvalue['blackout'] == true) {
-						$events[$counter] =  [ // put the array in the `events` property
-							'title' => 'Blackout Day',
-							'start' => $dkey,
-							'color' => 'black'
-						];
-				}
-				$counter++;
-			}
-
+		//###############
+		$blackout_dates_array = json_decode($rules['blackout_dates'],true);
+		$prepared_blackout_dates_array = [];
+		foreach ($blackout_dates_array as $bdakey => $bdavalue) {
+				$t = date_create_from_format("D, d M, Y",$bdavalue);
+				$value_reformated = date_format($t,"Y-m-d H:i:s");
+				$prepared_blackout_dates_array[$bdakey] = strtotime($value_reformated);
 		}
-		$new_events = array_values($events);
-		return $new_events;
+		$prepared_rules_array['blackout_dates'] = $prepared_blackout_dates_array;
+		//###############
+
+		$prepared_weekly_schedule_array = [];
+		$weekly_scheduel_array = json_decode($rules['weekly_schedule'],true);
+		$today_date = date("Y-m-d");
+		foreach ($weekly_scheduel_array as $wskey => $wsvalue) {
+			$prepared_breaks_array = [];
+			$prepared_weekly_schedule_array[$wskey]['open'] = $wsvalue['open']=='open'?true:false;
+			if ($prepared_weekly_schedule_array[$wskey]['open'] == true) {
+				$prepared_weekly_schedule_array[$wskey]['open_time'] = strtotime($today_date.' '.$wsvalue['open_hour'].':'.$wsvalue['open_minute'].$wsvalue['open_ampm']);
+				$prepared_weekly_schedule_array[$wskey]['close_time'] = strtotime($today_date.' '.$wsvalue['close_hour'].':'.$wsvalue['close_minute'].$wsvalue['close_ampm']);
+				//BREAKS
+				if (isset($wsvalue['breaks'])) {
+					foreach ($wsvalue['breaks'] as $wsbkey => $wsbvalue) {
+						$prepared_breaks_array[$wsbkey]['start'] = strtotime($today_date.' '.$wsbvalue['from_hour'].':'.$wsbvalue['from_minute'].$wsbvalue['from_ampm']);
+						$prepared_breaks_array[$wsbkey]['end'] = strtotime($today_date.' '.$wsbvalue['to_hour'].':'.$wsbvalue['to_minute'].$wsbvalue['to_ampm']);
+					}
+					$prepared_weekly_schedule_array[$wskey]['breaks'] = $prepared_breaks_array;
+				}
+			}
+		}
+		$prepared_rules_array['weekly_schedule'] = $prepared_weekly_schedule_array;
+
+		return $prepared_rules_array;
 	}
+
+	private static function HMtoS($hr,$min) {
+		return $hr * 3600 + $min * 60;
+	}
+
+
+
 
 
 	private static function DateToYmdFormat($date) {

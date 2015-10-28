@@ -12,13 +12,13 @@ invoice = {
 
 
 		$('#calendar').fullCalendar({
+			height:'auto',
 			header: {
 				left: 'prev,next today',
 				center: 'title',
 				right: 'month'
 			},
 			defaultDate: '2016-02-12',
-			eventLimit: 6,
 			displayEventTime :true,
 			displayEventEnd:true,
 			timeFormat: 'HH:mm a'
@@ -191,7 +191,6 @@ request = {
 				var users = result.users;
 				switch(status) {
 					case 200: 
-
 						fill_user_info(users);
 					break;				
 					case 400: 
